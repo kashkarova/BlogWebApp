@@ -44,15 +44,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Automapper\AutomapperEFToViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Implementations\ArticleService.cs" />
+    <Compile Include="Services\Implementations\AuthorService.cs" />
+    <Compile Include="Services\Implementations\FeedbackService.cs" />
+    <Compile Include="Services\Interfaces\IArticleService.cs" />
+    <Compile Include="Services\Interfaces\IAuthorService.cs" />
+    <Compile Include="Services\Interfaces\IFeedbackService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\BlogWebApp.DAL\BlogWebApp.DAL.csproj">
+      <Project>{2affbc68-e30a-40ff-bb53-19b1332f79ef}</Project>
+      <Name>BlogWebApp.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BlogWebApp.ViewModel\BlogWebApp.ViewModel.csproj">
       <Project>{2d01bcfe-d2be-4b6b-8c74-6cd159fc7b75}</Project>
       <Name>BlogWebApp.ViewModel</Name>

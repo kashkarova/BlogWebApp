@@ -66,7 +66,6 @@
     <Compile Include="Repository\Realizations\AuthorRepository.cs" />
     <Compile Include="Repository\Realizations\FeedbackRepository.cs" />
     <Compile Include="Repository\Realizations\GenericRepository.cs" />
-    <Compile Include="UnitOfWork\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
