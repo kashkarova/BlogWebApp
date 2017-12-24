@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace BlogWebApp.DAL.DbEntities
+namespace BlogWebApp.ViewModel
 {
-    public class Feedback : EntityBase
+    public class FeedbackViewModel
     {
+        public Guid Id { get; set; }
+
         [Required]
-        [MaxLength(20)]
         public string Author { get; set; }
 
         [Required]
