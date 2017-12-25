@@ -2,23 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using BlogWebApp.BLL.Services.Interfaces;
-using BlogWebApp.ViewModel;
 using AutoMapper;
+using BlogWebApp.BLL.Services.Interfaces;
+using BlogWebApp.DAL.DbContext;
 using BlogWebApp.DAL.DbEntities;
-using BlogWebApp.DAL.Repository.Interfaces;
 using BlogWebApp.DAL.Repository.Realizations;
+using BlogWebApp.ViewModel;
 
 namespace BlogWebApp.BLL.Services.Implementations
 {
     public class ArticleService : IArticleService
     {
-        private readonly IArticleRepository _articleRepository;
+        private readonly ArticleRepository _articleRepository;
+        private readonly BlogDb _db;
+
 
         public ArticleService()
         {
-            _articleRepository = new ArticleRepository();
+            _db = new BlogDb();
+            _articleRepository = new ArticleRepository(_db);
         }
+
         public ArticleViewModel Get(Guid id)
         {
             var unmappedArticle = _articleRepository.Get(id);
@@ -29,7 +33,8 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public ArticleViewModel Get(Expression<Func<ArticleViewModel, bool>> predicate)
         {
-            var mappedPredicate = Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
+            var mappedPredicate =
+                Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
 
 
             var unmappedArticle = _articleRepository.Get(mappedPredicate);
@@ -49,7 +54,8 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public List<ArticleViewModel> GetAll(Expression<Func<ArticleViewModel, bool>> predicate)
         {
-            var mappedPredicate = Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
+            var mappedPredicate =
+                Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
 
             var unmappedList = _articleRepository.GetAll(mappedPredicate);
 
@@ -60,7 +66,8 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public ArticleViewModel First(Expression<Func<ArticleViewModel, bool>> predicate)
         {
-            var mappedPredicate = Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
+            var mappedPredicate =
+                Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
 
             var unmappedArticle = _articleRepository.First(mappedPredicate);
             var mappedArticle = Mapper.Map<Article, ArticleViewModel>(unmappedArticle);
@@ -75,7 +82,8 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public bool Exists(Expression<Func<ArticleViewModel, bool>> predicate)
         {
-            var mappedPredicate = Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
+            var mappedPredicate =
+                Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
 
             return _articleRepository.Exists(mappedPredicate);
         }
@@ -87,7 +95,8 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public int Count(Expression<Func<ArticleViewModel, bool>> predicate)
         {
-            var mappedPredicate = Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
+            var mappedPredicate =
+                Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
 
             return _articleRepository.Count(mappedPredicate);
         }

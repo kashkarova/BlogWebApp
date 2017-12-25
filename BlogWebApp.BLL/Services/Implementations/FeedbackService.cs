@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using AutoMapper;
 using BlogWebApp.BLL.Services.Interfaces;
 using BlogWebApp.DAL.DbEntities;
-using BlogWebApp.DAL.Repository.Interfaces;
 using BlogWebApp.DAL.Repository.Realizations;
 using BlogWebApp.ViewModel;
 
@@ -13,11 +12,11 @@ namespace BlogWebApp.BLL.Services.Implementations
 {
     public class FeedbackService : IFeedbackService
     {
-        private readonly IFeedbackRepository _feedbackRepository;
+        private readonly FeedbackRepository _feedbackRepository;
 
-        public FeedbackService()
+        public FeedbackService(FeedbackRepository feedbackRepository)
         {
-            _feedbackRepository = new FeedbackRepository();
+            _feedbackRepository = feedbackRepository;
         }
 
         public FeedbackViewModel Get(Guid id)
@@ -30,7 +29,8 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public FeedbackViewModel Get(Expression<Func<FeedbackViewModel, bool>> predicate)
         {
-            var mappedPredicate = Mapper.Map<Expression<Func<FeedbackViewModel, bool>>, Expression<Func<Feedback, bool>>>(predicate);
+            var mappedPredicate =
+                Mapper.Map<Expression<Func<FeedbackViewModel, bool>>, Expression<Func<Feedback, bool>>>(predicate);
 
             var unmappedFeedback = _feedbackRepository.Get(mappedPredicate);
             var mappedFeedback = Mapper.Map<Feedback, FeedbackViewModel>(unmappedFeedback);
@@ -49,7 +49,8 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public List<FeedbackViewModel> GetAll(Expression<Func<FeedbackViewModel, bool>> predicate)
         {
-            var mappedPredicate = Mapper.Map<Expression<Func<FeedbackViewModel, bool>>, Expression<Func<Feedback, bool>>>(predicate);
+            var mappedPredicate =
+                Mapper.Map<Expression<Func<FeedbackViewModel, bool>>, Expression<Func<Feedback, bool>>>(predicate);
 
             var unmappedList = _feedbackRepository.GetAll(mappedPredicate);
 
@@ -60,7 +61,8 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public FeedbackViewModel First(Expression<Func<FeedbackViewModel, bool>> predicate)
         {
-            var mappedPredicate = Mapper.Map<Expression<Func<FeedbackViewModel, bool>>, Expression<Func<Feedback, bool>>>(predicate);
+            var mappedPredicate =
+                Mapper.Map<Expression<Func<FeedbackViewModel, bool>>, Expression<Func<Feedback, bool>>>(predicate);
 
             var unmappedFeedback = _feedbackRepository.First(mappedPredicate);
             var mappedFeedback = Mapper.Map<Feedback, FeedbackViewModel>(unmappedFeedback);
@@ -75,7 +77,8 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public bool Exists(Expression<Func<FeedbackViewModel, bool>> predicate)
         {
-            var mappedPredicate = Mapper.Map<Expression<Func<FeedbackViewModel, bool>>, Expression<Func<Feedback, bool>>>(predicate);
+            var mappedPredicate =
+                Mapper.Map<Expression<Func<FeedbackViewModel, bool>>, Expression<Func<Feedback, bool>>>(predicate);
 
             return _feedbackRepository.Exists(mappedPredicate);
         }
@@ -87,7 +90,8 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public int Count(Expression<Func<FeedbackViewModel, bool>> predicate)
         {
-            var mappedPredicate = Mapper.Map<Expression<Func<FeedbackViewModel, bool>>, Expression<Func<Feedback, bool>>>(predicate);
+            var mappedPredicate =
+                Mapper.Map<Expression<Func<FeedbackViewModel, bool>>, Expression<Func<Feedback, bool>>>(predicate);
 
             return _feedbackRepository.Count(mappedPredicate);
         }

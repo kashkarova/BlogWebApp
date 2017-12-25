@@ -4,7 +4,7 @@ using BlogWebApp.ViewModel;
 
 namespace BlogWebApp.BLL.Automapper
 {
-    public class AutomapperEFToViewModel:Profile
+    public class AutomapperEFToViewModel : Profile
     {
         public AutomapperEFToViewModel()
         {

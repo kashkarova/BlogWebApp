@@ -21,3 +21,26 @@
 input,
 select,
 textarea { max-width: 280px; }
+
+.body-content {
+    margin-top: 2%;
+}
+
+.main-body {
+    width: 75%;
+    float: left;
+    position: relative;
+}
+
+.right-side {
+    width: 23%;
+    float: right;
+    top: 5.6em;
+    position: relative;
+}
+
+footer { clear: both; }
+
+footer h6, #goTop {
+    margin: auto;
+}

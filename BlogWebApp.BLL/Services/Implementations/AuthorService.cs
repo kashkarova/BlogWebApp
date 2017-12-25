@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using AutoMapper;
 using BlogWebApp.BLL.Services.Interfaces;
-using BlogWebApp.DAL.Repository.Interfaces;
+using BlogWebApp.DAL.DbEntities;
 using BlogWebApp.DAL.Repository.Realizations;
 using BlogWebApp.ViewModel;
-using AutoMapper;
-using BlogWebApp.DAL.DbEntities;
 
 namespace BlogWebApp.BLL.Services.Implementations
 {
-    public class AuthorService:IAuthorService
+    public class AuthorService : IAuthorService
     {
-        private readonly IAuthorRepository _authorRepository;
+        private readonly AuthorRepository _authorRepository;
 
-        public AuthorService()
+        public AuthorService(AuthorRepository authorRepository)
         {
-            _authorRepository=new AuthorRepository();
+            _authorRepository = authorRepository;
         }
 
         public AuthorViewModel Get(Guid id)
@@ -30,7 +29,8 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public AuthorViewModel Get(Expression<Func<AuthorViewModel, bool>> predicate)
         {
-            var mappedPredicate =Mapper.Map<Expression<Func<AuthorViewModel, bool>>, Expression<Func<Author, bool>>>(predicate);
+            var mappedPredicate =
+                Mapper.Map<Expression<Func<AuthorViewModel, bool>>, Expression<Func<Author, bool>>>(predicate);
 
             var unmapperAuthor = _authorRepository.Get(mappedPredicate);
             var mappedAuthor = Mapper.Map<Author, AuthorViewModel>(unmapperAuthor);
@@ -41,14 +41,15 @@ namespace BlogWebApp.BLL.Services.Implementations
         public List<AuthorViewModel> GetAll()
         {
             var unmappedList = _authorRepository.GetAll();
-            var mappedList=Mapper.Map<List<Author>, List<AuthorViewModel>> (unmappedList.ToList());
+            var mappedList = Mapper.Map<List<Author>, List<AuthorViewModel>>(unmappedList.ToList());
 
             return mappedList;
         }
 
         public List<AuthorViewModel> GetAll(Expression<Func<AuthorViewModel, bool>> predicate)
         {
-            var mappedPredicate = Mapper.Map<Expression<Func<AuthorViewModel, bool>>, Expression<Func<Author, bool>>>(predicate);
+            var mappedPredicate =
+                Mapper.Map<Expression<Func<AuthorViewModel, bool>>, Expression<Func<Author, bool>>>(predicate);
 
             var unmappedList = _authorRepository.GetAll(mappedPredicate);
             var mappedList = Mapper.Map<List<Author>, List<AuthorViewModel>>(unmappedList.ToList());
@@ -58,7 +59,8 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public AuthorViewModel First(Expression<Func<AuthorViewModel, bool>> predicate)
         {
-            var mappedPredicate = Mapper.Map<Expression<Func<AuthorViewModel, bool>>, Expression<Func<Author, bool>>>(predicate);
+            var mappedPredicate =
+                Mapper.Map<Expression<Func<AuthorViewModel, bool>>, Expression<Func<Author, bool>>>(predicate);
 
             var unmappedAuthor = _authorRepository.First(mappedPredicate);
             var mappedAuthor = Mapper.Map<Author, AuthorViewModel>(unmappedAuthor);
@@ -73,7 +75,8 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public bool Exists(Expression<Func<AuthorViewModel, bool>> predicate)
         {
-            var mappedPredicate = Mapper.Map<Expression<Func<AuthorViewModel, bool>>, Expression<Func<Author, bool>>>(predicate);
+            var mappedPredicate =
+                Mapper.Map<Expression<Func<AuthorViewModel, bool>>, Expression<Func<Author, bool>>>(predicate);
 
             return _authorRepository.Exists(mappedPredicate);
         }
@@ -85,7 +88,8 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public int Count(Expression<Func<AuthorViewModel, bool>> predicate)
         {
-            var mappedPredicate = Mapper.Map<Expression<Func<AuthorViewModel, bool>>, Expression<Func<Author, bool>>>(predicate);
+            var mappedPredicate =
+                Mapper.Map<Expression<Func<AuthorViewModel, bool>>, Expression<Func<Author, bool>>>(predicate);
 
             return _authorRepository.Count(mappedPredicate);
         }

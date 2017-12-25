@@ -56,10 +56,6 @@
     <Compile Include="DbEntities\Feedback.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\Interfaces\IArticleRepository.cs" />
-    <Compile Include="Repository\Interfaces\IAuthorAndArticleRepository.cs" />
-    <Compile Include="Repository\Interfaces\IAuthorRepository.cs" />
-    <Compile Include="Repository\Interfaces\IFeedbackRepository.cs" />
     <Compile Include="Repository\Interfaces\IGenericRepository.cs" />
     <Compile Include="Repository\Realizations\ArticleRepository.cs" />
     <Compile Include="Repository\Realizations\AuthorAndArticleRepository.cs" />

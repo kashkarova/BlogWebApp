@@ -12,7 +12,7 @@ namespace BlogWebApp.Web
             routes.MapRoute(
                 "Default",
                 "{controller}/{action}/{id}",
-                new {controller = "Home", action = "Index", id = UrlParameter.Optional}
+                new {controller = "Article", action = "Index", id = UrlParameter.Optional}
             );
         }
     }
