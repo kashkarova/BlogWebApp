@@ -1,52 +1,52 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation" style="">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation" style="">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <div>
-            <img src="~/Content/img/logo.png" alt="logo" id="logo" />
-        </div>
-
-        <div class="collapse navbar-collapse" id="navbarColor02">
-            @Html.ActionLink("Blog", "Index", "Article", new { area = "" }, new { @class = "navbar-brand" })
-        </div>
-    </nav>
-
-    <div class="container body-content">
-        <div class="main-body">
-            @RenderBody()
-        </div>
-        <div class="right-side">
-            <ul class="nav nav-pills flex-column ">
-                <li class="nav-item">
-                    <a class="nav-link active list-group-item list-group-item-action" href="#">Active</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link list-group-item list-group-item-action" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active list-group-item list-group-item-action" href="#">Disabled</a>
-                </li>
-            </ul>
-        </div>
+    <div>
+        <img src="~/Content/img/logo.png" alt="logo" id="logo"/>
     </div>
 
-    <footer class="navbar navbar-expand-lg navbar-light bg-dark">
-        <h6>&copy; @DateTime.Now.Year - Tetiana Kashkarova</h6>
-        <a href="#" id="goTop" onclick="goTop()">Go top</a>
-    </footer>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        @Html.ActionLink("Blog", "Index", "Article", new {area = ""}, new {@class = "navbar-brand"})
+    </div>
+</nav>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/scripts")
+<div class="container body-content">
+    <div class="main-body">
+        @RenderBody()
+    </div>
+    <div class="right-side">
+        <ul class="nav nav-pills flex-column ">
+            <li class="nav-item">              
+                @Html.ActionLink("Articles", "Index", "Article", htmlAttributes:new {@class= "nav-link active list-group-item list-group-item-action" })
+            </li>
+            <li class="nav-item">
+                <a class="nav-link list-group-item list-group-item-action" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active list-group-item list-group-item-action" href="#">Disabled</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<footer class="navbar navbar-expand-lg navbar-light bg-dark">
+    <h6>&copy; @DateTime.Now.Year - Tetiana Kashkarova</h6>
+    <a href="#" id="goTop" onclick="goTop()">Go top</a>
+</footer>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/scripts")
 </body>
 </html>

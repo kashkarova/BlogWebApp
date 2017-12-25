@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
@@ -99,6 +100,11 @@ namespace BlogWebApp.BLL.Services.Implementations
         public FeedbackViewModel Create(FeedbackViewModel entity)
         {
             var mappedEntityForCreate = Mapper.Map<FeedbackViewModel, Feedback>(entity);
+
+            if (_feedbackRepository.Exists(e => e.Author == mappedEntityForCreate.Author))
+            {
+                throw new DbEntityValidationException();
+            }
 
             var unmappedCreatedEntity = _feedbackRepository.Create(mappedEntityForCreate);
             var mappedCreatedEntity = Mapper.Map<Feedback, FeedbackViewModel>(unmappedCreatedEntity);

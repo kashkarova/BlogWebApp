@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
@@ -104,6 +105,11 @@ namespace BlogWebApp.BLL.Services.Implementations
         public ArticleViewModel Create(ArticleViewModel entity)
         {
             var mappedEntityForCreate = Mapper.Map<ArticleViewModel, Article>(entity);
+
+            if (_articleRepository.Exists(e => e.Title == mappedEntityForCreate.Title))
+            {
+                throw new DbEntityValidationException();
+            }
 
             var unmappedCreatedEntity = _articleRepository.Create(mappedEntityForCreate);
             var mappedCreatedEntity = Mapper.Map<Article, ArticleViewModel>(unmappedCreatedEntity);

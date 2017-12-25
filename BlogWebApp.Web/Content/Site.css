@@ -22,25 +22,39 @@ input,
 select,
 textarea { max-width: 280px; }
 
-.body-content {
-    margin-top: 2%;
+.body-content { margin-top: 2%; }
+
+.page-title {
+    margin: 3% 0 3% 0;
+    font: normal 2em sans-serif;
+    color: darkblue;
 }
 
+
 .main-body {
-    width: 75%;
     float: left;
     position: relative;
+    width: 75%;
+}
+
+.buttons-edit-delete {
+    list-style: none;
+    margin-left: -8%;
+}
+
+.buttons-edit-delete li {
+    display: inline-block;
+    margin-left: 2%;
 }
 
 .right-side {
-    width: 23%;
     float: right;
-    top: 5.6em;
+    height: 17em;
     position: relative;
+    top: 5.6em;
+    width: 23%;
 }
 
 footer { clear: both; }
 
-footer h6, #goTop {
-    margin: auto;
-}
+footer h6, #goTop { margin: auto; }

@@ -23,59 +23,59 @@ namespace BlogWebApp.DAL.Repository.Realizations
             Db = db;
         }
 
-        public TEntity Get(Guid id)
+        public virtual TEntity Get(Guid id)
         {
             return Db.Set<TEntity>().First(x => x.Id == id);
         }
 
-        public TEntity Get(Expression<Func<TEntity, bool>> predicate)
+        public virtual TEntity Get(Expression<Func<TEntity, bool>> predicate)
         {
             return Db.Set<TEntity>().First(predicate);
         }
 
-        public IQueryable<TEntity> GetAll()
+        public virtual IQueryable<TEntity> GetAll()
         {
             return Db.Set<TEntity>();
         }
 
-        public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate)
+        public virtual IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate)
         {
             return Db.Set<TEntity>().Where(predicate);
         }
 
-        public TEntity First(Expression<Func<TEntity, bool>> predicate)
+        public virtual TEntity First(Expression<Func<TEntity, bool>> predicate)
         {
             return Db.Set<TEntity>().First(predicate);
         }
 
-        public bool Exists(Guid id)
+        public virtual bool Exists(Guid id)
         {
             return Db.Set<TEntity>().Any(x => x.Id == id);
         }
 
-        public bool Exists(Expression<Func<TEntity, bool>> predicate)
+        public virtual bool Exists(Expression<Func<TEntity, bool>> predicate)
         {
             return Db.Set<TEntity>().Any(predicate);
         }
 
-        public int Count()
+        public virtual int Count()
         {
             return Db.Set<TEntity>().Count();
         }
 
-        public int Count(Expression<Func<TEntity, bool>> predicate)
+        public virtual int Count(Expression<Func<TEntity, bool>> predicate)
         {
             return Db.Set<TEntity>().Count(predicate);
         }
 
-        public TEntity Create(TEntity entity)
+        public virtual TEntity Create(TEntity entity)
         {
             var createdEntity = Db.Set<TEntity>().Add(entity);
 
             return createdEntity;
         }
 
-        public TEntity Update(TEntity entity)
+        public virtual TEntity Update(TEntity entity)
         {
             Db.Entry(entity).State = EntityState.Modified;
 
@@ -84,7 +84,7 @@ namespace BlogWebApp.DAL.Repository.Realizations
             return updatedEntity;
         }
 
-        public void Delete(Guid id)
+        public virtual void Delete(Guid id)
         {
             var entityForDelete = Db.Set<TEntity>().Find(id);
 
@@ -94,12 +94,12 @@ namespace BlogWebApp.DAL.Repository.Realizations
             Db.Set<TEntity>().Remove(entityForDelete);
         }
 
-        public void Save()
+        public virtual void Save()
         {
             Db.SaveChanges();
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             Db.Dispose();
         }

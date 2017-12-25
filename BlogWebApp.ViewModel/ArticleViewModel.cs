@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlogWebApp.ViewModel
 {
@@ -11,7 +12,7 @@ namespace BlogWebApp.ViewModel
 
         [Required]
         [DisplayName("Title of article")]
-        //[Remote("CheckTitle", "Article", HttpMethod = "GET")]
+        [Index(IsUnique = true)]
         public string Title { get; set; }
 
         [DisplayName("Description of article")]

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
@@ -97,6 +98,11 @@ namespace BlogWebApp.BLL.Services.Implementations
         public AuthorViewModel Create(AuthorViewModel entity)
         {
             var mappedEntityForCreate = Mapper.Map<AuthorViewModel, Author>(entity);
+
+            if (_authorRepository.Exists(e => e.NickName == mappedEntityForCreate.NickName))
+            {
+                throw new DbEntityValidationException();
+            }
 
             var unmappedCreatedEntity = _authorRepository.Create(mappedEntityForCreate);
             var mappedCreatedEntity = Mapper.Map<Author, AuthorViewModel>(unmappedCreatedEntity);

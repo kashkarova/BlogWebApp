@@ -1,24 +1,26 @@
-﻿@using System.Web.UI.WebControls
-@model IEnumerable<BlogWebApp.ViewModel.ArticleViewModel>
+﻿@model IEnumerable<BlogWebApp.ViewModel.ArticleViewModel>
 
 @{
     ViewBag.Title = "Index";
     Layout = "../Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2 class="page-title">Articles</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create article", "Create", null, htmlAttributes: new { @class = "btn btn-success" })
 </p>
 
 
 @foreach (var item in Model)
 {
-
     <div class="card border-primary mb-3">
         <div class="card-header">
+            @Html.LabelFor(modelItem => item.Title, htmlAttributes: new { @class = "text-muted" })
             @Html.DisplayFor(modelItem => item.Title)
+            
+
+            @Html.LabelFor(modelItem => item.Date, htmlAttributes: new { @class = "text-muted", style="margin-left:2%;" })
             @Html.DisplayFor(modelItem => item.Date)
         </div>
         <div class="card-body text-primary">
@@ -26,14 +28,18 @@
             <p class="card-text">@Html.DisplayFor(modelItem => item.Text)</p>
         </div>
         <div class="card-footer">
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-
-            @using (Html.BeginForm("Delete", "Article", new { id = item.Id }))
-            {
-                @Html.AntiForgeryToken()
-                <input type="submit" value="Delete" class="btn btn-warning" />
-            }
+            <ul class="buttons-edit-delete">
+                <li>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary" })
+                </li>
+                <li>
+                    @using (Html.BeginForm("Delete", "Article", new { id = item.Id }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="submit" value="Delete" class="btn btn-warning" />
+                    }
+                </li>
+            </ul>
         </div>
     </div>
 }
