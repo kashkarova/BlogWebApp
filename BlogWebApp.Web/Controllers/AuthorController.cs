@@ -35,12 +35,7 @@ namespace BlogWebApp.Web.Controllers
         {
             ViewBag.hobbies = GetHobbies();
 
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-
-            if (!_authorService.Exists(i => i.NickName == author.NickName) && action == "Create")
+            if (!_authorService.Exists(i => i.NickName == author.NickName) && action == "Create" && ModelState.IsValid)
             {
                 author.Id = Guid.NewGuid();
 
@@ -50,8 +45,13 @@ namespace BlogWebApp.Web.Controllers
                 return RedirectToAction($"Details/{author.Id}");
             }
 
-            ViewBag.error = "Author with such nickname is exists!";
-            return View();
+            if (action == "Create" && ModelState.IsValid)
+            {
+                ViewBag.error = "Author with such nickname is exists!";
+                return View(author);
+            }
+
+            return View(author);
         }
 
         [HttpGet]

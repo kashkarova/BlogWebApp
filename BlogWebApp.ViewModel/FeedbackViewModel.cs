@@ -13,8 +13,8 @@ namespace BlogWebApp.ViewModel
 
         [Required]
         [DisplayName("Date of publishing")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:dd'-'MM'-'yyyy HH:mm}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'-'MM'-'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
         [Required]
