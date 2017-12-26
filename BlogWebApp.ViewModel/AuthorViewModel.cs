@@ -20,7 +20,6 @@ namespace BlogWebApp.ViewModel
 
         [Required]
         [DisplayName("Nickname")]
-        [Remote("CheckNickName", "Author", HttpMethod = "GET")]
         public string NickName { get; set; }
 
         [Required]

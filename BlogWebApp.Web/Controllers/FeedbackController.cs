@@ -7,22 +7,22 @@ using BlogWebApp.ViewModel;
 
 namespace BlogWebApp.Web.Controllers
 {
-    public class ArticleController : Controller
+    public class FeedbackController : Controller
     {
-        private readonly IArticleService _articleService;
+        private readonly IFeedbackService _feedbackService;
 
-        public ArticleController()
+        public FeedbackController()
         {
-            _articleService = new ArticleService();
+            _feedbackService = new FeedbackService();
         }
 
-        // GET: Article
+        // GET: Feedback
         [HttpGet]
         public ActionResult Index()
         {
-            var articles = _articleService.GetAll().OrderByDescending(a=>a.Date);
+            var feedbacks = _feedbackService.GetAll().OrderByDescending(f=>f.Date);
 
-            return View(articles);
+            return View(feedbacks);
         }
 
         [HttpGet]
@@ -33,25 +33,25 @@ namespace BlogWebApp.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ArticleViewModel item)
+        public ActionResult Create(FeedbackViewModel item)
         {
             if (!ModelState.IsValid)
             {
                 return View(item);
             }
 
-            if (!_articleService.Exists(i => i.Title == item.Title))
+            if (!_feedbackService.Exists(i => i.Author == item.Author))
             {
                 item.Id = Guid.NewGuid();
             }
             else
             {
-                ViewBag.error = "Such title is exists!";
+                ViewBag.error = "Author with such nickname is exists!";
                 return View(item);
             }
 
-            _articleService.Create(item);
-            _articleService.Save();
+            _feedbackService.Create(item);
+            _feedbackService.Save();
 
             return RedirectToAction("Index");
         }
@@ -59,33 +59,32 @@ namespace BlogWebApp.Web.Controllers
         [HttpGet]
         public ActionResult Edit(Guid id)
         {
-            var itemForEdit = _articleService.Get(id);
+            var itemForEdit = _feedbackService.Get(id);
 
             return View(itemForEdit);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(ArticleViewModel item)
+        public ActionResult Edit(FeedbackViewModel item)
         {
             if (!ModelState.IsValid)
             {
                 return View(item);
             }
 
-            _articleService.Update(item);
-            _articleService.Save();
+            _feedbackService.Update(item);
+            _feedbackService.Save();
 
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Delete(Guid id)
         {
-            var itemForDelete = _articleService.Get(id);
-            _articleService.Delete(itemForDelete.Id);
-            _articleService.Save();
+            var itemForDelete = _feedbackService.Get(id);
+
+            _feedbackService.Delete(itemForDelete.Id);
+            _feedbackService.Save();
 
             return RedirectToAction("Index");
         }

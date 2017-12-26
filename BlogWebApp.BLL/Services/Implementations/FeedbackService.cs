@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
 using BlogWebApp.BLL.Services.Interfaces;
+using BlogWebApp.DAL.DbContext;
 using BlogWebApp.DAL.DbEntities;
 using BlogWebApp.DAL.Repository.Realizations;
 using BlogWebApp.ViewModel;
@@ -14,6 +15,13 @@ namespace BlogWebApp.BLL.Services.Implementations
     public class FeedbackService : IFeedbackService
     {
         private readonly FeedbackRepository _feedbackRepository;
+        private readonly BlogDb _db;
+
+        public FeedbackService()
+        {
+            _db = new BlogDb();
+            _feedbackRepository = new FeedbackRepository(_db);
+        }
 
         public FeedbackService(FeedbackRepository feedbackRepository)
         {

@@ -7,11 +7,15 @@ namespace BlogWebApp.Web
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                "~/Scripts/StandartScripts/jquery-{version}.js"));
+                "~/Scripts/StandartScripts/jquery-{version}.js",
+                "~/Scripts/StandartScripts/jquery.unobtrusive-ajax.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                "~/Scripts/StandartScripts/jquery.validate*"));
+                "~/Scripts/StandartScripts/jquery.validate.js",
+                "~/Scripts/StandartScripts/jquery.validate.unobtrusive.js"));
+
 
             bundles.Add(new ScriptBundle("~/bundles/scripts").Include(
                 "~/Scripts/MyScripts/Script.js"));
