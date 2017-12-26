@@ -7,7 +7,7 @@ using AutoMapper;
 using BlogWebApp.BLL.Services.Interfaces;
 using BlogWebApp.DAL.DbContext;
 using BlogWebApp.DAL.DbEntities;
-using BlogWebApp.DAL.Repository.Realizations;
+using BlogWebApp.DAL.Repository.Implementation;
 using BlogWebApp.ViewModel;
 
 namespace BlogWebApp.BLL.Services.Implementations

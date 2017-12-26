@@ -40,6 +40,7 @@ namespace BlogWebApp.Web.Controllers
                 return View(item);
             }
 
+            // Validation of unique field Author
             if (!_feedbackService.Exists(i => i.Author == item.Author))
             {
                 item.Id = Guid.NewGuid();

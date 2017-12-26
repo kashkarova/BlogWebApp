@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlogWebApp.DAL.DbEntities
 {
+    // Entity for adduction DB to 3NF
     public class AuthorAndArticle : EntityBase
     {
         [Required]

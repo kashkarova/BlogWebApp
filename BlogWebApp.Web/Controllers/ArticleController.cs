@@ -40,6 +40,7 @@ namespace BlogWebApp.Web.Controllers
                 return View(item);
             }
 
+            // Validation of unique field Title
             if (!_articleService.Exists(i => i.Title == item.Title))
             {
                 item.Id = Guid.NewGuid();

@@ -6,7 +6,7 @@ using BlogWebApp.DAL.DbContext;
 using BlogWebApp.DAL.DbEntities;
 using BlogWebApp.DAL.Repository.Interfaces;
 
-namespace BlogWebApp.DAL.Repository.Realizations
+namespace BlogWebApp.DAL.Repository.Implementation
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity>
         where TEntity : EntityBase

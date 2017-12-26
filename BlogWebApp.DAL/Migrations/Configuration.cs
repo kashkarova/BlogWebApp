@@ -12,6 +12,7 @@ namespace BlogWebApp.DAL.Migrations
             AutomaticMigrationsEnabled = true;
         }
 
+        // Filling generated DB entities by test data
         protected override void Seed(BlogDb context)
         {
             context.Author.AddOrUpdate(x => x.NickName,

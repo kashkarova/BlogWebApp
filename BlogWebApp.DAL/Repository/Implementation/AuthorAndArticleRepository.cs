@@ -2,7 +2,7 @@
 using BlogWebApp.DAL.DbEntities;
 using BlogWebApp.DAL.Repository.Interfaces;
 
-namespace BlogWebApp.DAL.Repository.Realizations
+namespace BlogWebApp.DAL.Repository.Implementation
 {
     public class AuthorAndArticleRepository : GenericRepository<AuthorAndArticle>, IAuthorAndArticleRepository
     {

@@ -31,10 +31,12 @@ namespace BlogWebApp.Web.Controllers
             return View(selectedAuthor);
         }
 
+        // Combining of GET and POST Create methods in this one - requirement of the 1st task
         public ActionResult Create(AuthorViewModel author, string action)
         {
             ViewBag.hobbies = GetHobbies();
 
+            // Check for unique field NickName and validity of the model
             if (!_authorService.Exists(i => i.NickName == author.NickName) && action == "Create" && ModelState.IsValid)
             {
                 author.Id = Guid.NewGuid();
@@ -45,6 +47,7 @@ namespace BlogWebApp.Web.Controllers
                 return RedirectToAction($"Details/{author.Id}");
             }
 
+            // Validate NickName field if one is not unique
             if (action == "Create" && ModelState.IsValid)
             {
                 ViewBag.error = "Author with such nickname is exists!";

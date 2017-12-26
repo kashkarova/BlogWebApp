@@ -6,6 +6,7 @@ namespace BlogWebApp.BLL.Automapper
 {
     public class AutomapperEFToViewModel : Profile
     {
+        // Comparison of classes from TEntity to TEntityViewModel and inversely
         public AutomapperEFToViewModel()
         {
             CreateMap<Author, AuthorViewModel>().ReverseMap();
