@@ -107,9 +107,7 @@ namespace BlogWebApp.BLL.Services.Implementations
             var mappedEntityForCreate = Mapper.Map<ArticleViewModel, Article>(entity);
 
             if (_articleRepository.Exists(e => e.Title == mappedEntityForCreate.Title))
-            {
                 throw new DbEntityValidationException();
-            }
 
             var unmappedCreatedEntity = _articleRepository.Create(mappedEntityForCreate);
             var mappedCreatedEntity = Mapper.Map<Article, ArticleViewModel>(unmappedCreatedEntity);

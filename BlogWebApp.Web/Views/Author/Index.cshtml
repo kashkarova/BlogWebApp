@@ -1,0 +1,40 @@
+﻿@model IEnumerable<BlogWebApp.ViewModel.AuthorViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="page-title">Authors</h2>
+
+<p>
+    @Html.ActionLink("Fill a questionare", "Create", null, new {@class = "btn btn-success"})
+</p>
+
+@foreach (var item in Model)
+{
+    <div class="card border-primary mb-3">
+        <h3 class="card-header">@Html.DisplayFor(modelItem => item.NickName)</h3>
+        <div class="card-body">
+            <h5 class="card-title">@Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)</h5>
+            <h6 class="card-subtitle text-muted">from: @Html.DisplayFor(modelItem => item.Country)</h6>
+        </div>
+        <div class="card-footer">
+            <ul class="buttons-edit-delete">
+                <li>
+                    @Html.ActionLink("Edit", "Edit", new {id = item.Id}, new {@class = "btn btn-primary"})
+                </li>
+                <li>
+                    @Html.ActionLink("Details", "Details", new {id = item.Id}, new {@class = "btn btn-secondary"})
+                </li>
+                <li>
+                    @using (Html.BeginForm("Delete", "Author", new {id = item.Id}))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="submit" value="Delete" class="btn btn-warning"/>
+                    }
+                </li>
+            </ul>
+        </div>
+    </div>
+}

@@ -20,7 +20,7 @@ namespace BlogWebApp.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var articles = _articleService.GetAll().OrderByDescending(a=>a.Date);
+            var articles = _articleService.GetAll().OrderByDescending(a => a.Date);
 
             return View(articles);
         }

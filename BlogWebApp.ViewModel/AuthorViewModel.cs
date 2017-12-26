@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 
 namespace BlogWebApp.ViewModel
 {
@@ -11,7 +10,7 @@ namespace BlogWebApp.ViewModel
         public Guid Id { get; set; }
 
         [Required]
-        [DisplayName("NFirst name")]
+        [DisplayName("First name")]
         public string FirstName { get; set; }
 
         [Required]
@@ -31,7 +30,7 @@ namespace BlogWebApp.ViewModel
 
         public string Country { get; set; }
 
-        [DisplayName("YYour favourite color")]
+        [DisplayName("Your favourite color")]
         public string FavouriteColor { get; set; }
 
         [DisplayName("Do you have pets?")]

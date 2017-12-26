@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
 using BlogWebApp.BLL.Services.Interfaces;
+using BlogWebApp.DAL.DbContext;
 using BlogWebApp.DAL.DbEntities;
 using BlogWebApp.DAL.Repository.Realizations;
 using BlogWebApp.ViewModel;
@@ -14,10 +15,12 @@ namespace BlogWebApp.BLL.Services.Implementations
     public class AuthorService : IAuthorService
     {
         private readonly AuthorRepository _authorRepository;
+        private readonly BlogDb _db;
 
-        public AuthorService(AuthorRepository authorRepository)
+        public AuthorService()
         {
-            _authorRepository = authorRepository;
+            _db = new BlogDb();
+            _authorRepository = new AuthorRepository(_db);
         }
 
         public AuthorViewModel Get(Guid id)
@@ -100,9 +103,7 @@ namespace BlogWebApp.BLL.Services.Implementations
             var mappedEntityForCreate = Mapper.Map<AuthorViewModel, Author>(entity);
 
             if (_authorRepository.Exists(e => e.NickName == mappedEntityForCreate.NickName))
-            {
                 throw new DbEntityValidationException();
-            }
 
             var unmappedCreatedEntity = _authorRepository.Create(mappedEntityForCreate);
             var mappedCreatedEntity = Mapper.Map<Author, AuthorViewModel>(unmappedCreatedEntity);

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -28,13 +28,13 @@
     <div class="right-side">
         <ul class="nav nav-pills flex-column ">
             <li class="nav-item">
-                @Html.ActionLink("Articles", "Index", "Article", null, htmlAttributes: new {@class = "nav-link active list-group-item list-group-item-action"})
+                @Html.ActionLink("Articles", "Index", "Article", null, new {@class = "nav-link active list-group-item list-group-item-action"})
             </li>
             <li class="nav-item">
-                @Html.ActionLink("Feedbacks", "Index", "Feedback", null, htmlAttributes: new { @class = "nav-link list-group-item list-group-item-action" })
+                @Html.ActionLink("Feedbacks", "Index", "Feedback", null, new {@class = "nav-link list-group-item list-group-item-action"})
             </li>
             <li class="nav-item">
-                <a class="nav-link active list-group-item list-group-item-action" href="#">Disabled</a>
+                @Html.ActionLink("Quertionare", "Index", "Author", null, new {@class = "nav-link active list-group-item list-group-item-action"})
             </li>
         </ul>
     </div>

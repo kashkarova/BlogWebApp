@@ -14,8 +14,8 @@ namespace BlogWebApp.BLL.Services.Implementations
 {
     public class FeedbackService : IFeedbackService
     {
-        private readonly FeedbackRepository _feedbackRepository;
         private readonly BlogDb _db;
+        private readonly FeedbackRepository _feedbackRepository;
 
         public FeedbackService()
         {
@@ -110,9 +110,7 @@ namespace BlogWebApp.BLL.Services.Implementations
             var mappedEntityForCreate = Mapper.Map<FeedbackViewModel, Feedback>(entity);
 
             if (_feedbackRepository.Exists(e => e.Author == mappedEntityForCreate.Author))
-            {
                 throw new DbEntityValidationException();
-            }
 
             var unmappedCreatedEntity = _feedbackRepository.Create(mappedEntityForCreate);
             var mappedCreatedEntity = Mapper.Map<Feedback, FeedbackViewModel>(unmappedCreatedEntity);

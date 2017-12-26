@@ -25,9 +25,9 @@ textarea { max-width: 280px; }
 .body-content { margin-top: 2%; }
 
 .page-title {
-    margin: 3% 0 3% 0;
-    font: normal 2em sans-serif;
     color: darkblue;
+    font: normal 2em sans-serif;
+    margin: 3% 0 3% 0;
 }
 
 

@@ -20,7 +20,7 @@ namespace BlogWebApp.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var feedbacks = _feedbackService.GetAll().OrderByDescending(f=>f.Date);
+            var feedbacks = _feedbackService.GetAll().OrderByDescending(f => f.Date);
 
             return View(feedbacks);
         }

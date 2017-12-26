@@ -20,35 +20,60 @@ namespace BlogWebApp.DAL.Migrations
                     FirstName = "Tetiana",
                     LastName = "Kashkarova",
                     NickName = "Tanya",
-                    Age = 22
+                    Age = 22,
+                    Country = "Ukraine",
+                    Gender = "Female",
+                    FavouriteColor = "Blue",
+                    HavePets = true,
+                    RideABike = true
                 },
                 new Author
                 {
                     FirstName = "Ivan",
                     LastName = "Ivanov",
                     NickName = "Vanya",
-                    Age = 22
+                    Age = 22,
+                    Country = "Russia",
+                    Gender = "Male",
+                    FavouriteColor = "Black",
+                    HavePets = true,
+                    RideABike = false
                 },
                 new Author
                 {
                     FirstName = "Petr",
                     LastName = "Petrov",
                     NickName = "Pervyi",
-                    Age = 22
+                    Age = 22,
+                    Country = "Belarus",
+                    Gender = "Male",
+                    FavouriteColor = "Blue",
+                    HavePets = true,
+                    RideABike = true
                 },
                 new Author
                 {
                     FirstName = "Sydor",
                     LastName = "Sydorov",
                     NickName = "Sydor",
-                    Age = 22
+                    Age = 22,
+                    Country = "Poland",
+                    Gender = "Male",
+                    FavouriteColor = "Blue",
+                    HavePets = true,
+                    RideABike = true
                 },
                 new Author
                 {
                     FirstName = "Somebody",
                     LastName = "Somebody",
                     NickName = "Anonym",
-                    Age = 22
+                    Age = 22,
+                    Country = "German",
+                    Gender = "Secret",
+                    FavouriteColor = "Blue",
+                    HavePets = true,
+                    RideABike = true
                 }
             );
 
