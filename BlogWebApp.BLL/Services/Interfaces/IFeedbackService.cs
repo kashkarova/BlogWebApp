@@ -13,8 +13,6 @@ namespace BlogWebApp.BLL.Services.Interfaces
         List<FeedbackViewModel> GetAll();
         List<FeedbackViewModel> GetAll(Expression<Func<FeedbackViewModel, bool>> predicate);
 
-        FeedbackViewModel First(Expression<Func<FeedbackViewModel, bool>> predicate);
-
         bool Exists(Guid id);
         bool Exists(Expression<Func<FeedbackViewModel, bool>> predicate);
 

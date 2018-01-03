@@ -13,11 +13,6 @@ namespace BlogWebApp.DAL.Repository.Implementation
     {
         protected BlogDb Db;
 
-        public GenericRepository()
-        {
-            Db = new BlogDb();
-        }
-
         public GenericRepository(BlogDb db)
         {
             Db = db;
@@ -41,11 +36,6 @@ namespace BlogWebApp.DAL.Repository.Implementation
         public virtual IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate)
         {
             return Db.Set<TEntity>().Where(predicate);
-        }
-
-        public virtual TEntity First(Expression<Func<TEntity, bool>> predicate)
-        {
-            return Db.Set<TEntity>().First(predicate);
         }
 
         public virtual bool Exists(Guid id)
@@ -94,12 +84,7 @@ namespace BlogWebApp.DAL.Repository.Implementation
             Db.Set<TEntity>().Remove(entityForDelete);
         }
 
-        public virtual void Save()
-        {
-            Db.SaveChanges();
-        }
-
-        public virtual void Dispose()
+        public void Dispose()
         {
             Db.Dispose();
         }

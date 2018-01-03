@@ -5,28 +5,24 @@ using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
 using BlogWebApp.BLL.Services.Interfaces;
-using BlogWebApp.DAL.DbContext;
 using BlogWebApp.DAL.DbEntities;
-using BlogWebApp.DAL.Repository.Implementation;
+using BlogWebApp.DAL.UoW.Interface;
 using BlogWebApp.ViewModel;
 
 namespace BlogWebApp.BLL.Services.Implementations
 {
     public class ArticleService : IArticleService
     {
-        private readonly ArticleRepository _articleRepository;
-        private readonly BlogDb _db;
+        private readonly IBlogWebAppUnitOfWork _unitOfWork;
 
-
-        public ArticleService()
+        public ArticleService(IBlogWebAppUnitOfWork unitOfWork)
         {
-            _db = new BlogDb();
-            _articleRepository = new ArticleRepository(_db);
+            _unitOfWork = unitOfWork;
         }
 
         public ArticleViewModel Get(Guid id)
         {
-            var unmappedArticle = _articleRepository.Get(id);
+            var unmappedArticle = _unitOfWork.Articles.Get(id);
             var mappedArticle = Mapper.Map<Article, ArticleViewModel>(unmappedArticle);
 
             return mappedArticle;
@@ -38,7 +34,7 @@ namespace BlogWebApp.BLL.Services.Implementations
                 Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
 
 
-            var unmappedArticle = _articleRepository.Get(mappedPredicate);
+            var unmappedArticle = _unitOfWork.Articles.Get(mappedPredicate);
             var mappedArticle = Mapper.Map<Article, ArticleViewModel>(unmappedArticle);
 
             return mappedArticle;
@@ -46,7 +42,7 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public List<ArticleViewModel> GetAll()
         {
-            var unmappedList = _articleRepository.GetAll();
+            var unmappedList = _unitOfWork.Articles.GetAll();
 
             var mappedList = Mapper.Map<List<Article>, List<ArticleViewModel>>(unmappedList.ToList());
 
@@ -58,27 +54,16 @@ namespace BlogWebApp.BLL.Services.Implementations
             var mappedPredicate =
                 Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
 
-            var unmappedList = _articleRepository.GetAll(mappedPredicate);
+            var unmappedList = _unitOfWork.Articles.GetAll(mappedPredicate);
 
             var mappedList = Mapper.Map<List<Article>, List<ArticleViewModel>>(unmappedList.ToList());
 
             return mappedList;
         }
 
-        public ArticleViewModel First(Expression<Func<ArticleViewModel, bool>> predicate)
-        {
-            var mappedPredicate =
-                Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
-
-            var unmappedArticle = _articleRepository.First(mappedPredicate);
-            var mappedArticle = Mapper.Map<Article, ArticleViewModel>(unmappedArticle);
-
-            return mappedArticle;
-        }
-
         public bool Exists(Guid id)
         {
-            return _articleRepository.Exists(id);
+            return _unitOfWork.Articles.Exists(id);
         }
 
         public bool Exists(Expression<Func<ArticleViewModel, bool>> predicate)
@@ -86,12 +71,12 @@ namespace BlogWebApp.BLL.Services.Implementations
             var mappedPredicate =
                 Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
 
-            return _articleRepository.Exists(mappedPredicate);
+            return _unitOfWork.Articles.Exists(mappedPredicate);
         }
 
         public int Count()
         {
-            return _articleRepository.Count();
+            return _unitOfWork.Articles.Count();
         }
 
         public int Count(Expression<Func<ArticleViewModel, bool>> predicate)
@@ -99,17 +84,17 @@ namespace BlogWebApp.BLL.Services.Implementations
             var mappedPredicate =
                 Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
 
-            return _articleRepository.Count(mappedPredicate);
+            return _unitOfWork.Articles.Count(mappedPredicate);
         }
 
         public ArticleViewModel Create(ArticleViewModel entity)
         {
             var mappedEntityForCreate = Mapper.Map<ArticleViewModel, Article>(entity);
 
-            if (_articleRepository.Exists(e => e.Title == mappedEntityForCreate.Title))
+            if (_unitOfWork.Articles.Exists(e => e.Title == mappedEntityForCreate.Title))
                 throw new DbEntityValidationException();
 
-            var unmappedCreatedEntity = _articleRepository.Create(mappedEntityForCreate);
+            var unmappedCreatedEntity = _unitOfWork.Articles.Create(mappedEntityForCreate);
             var mappedCreatedEntity = Mapper.Map<Article, ArticleViewModel>(unmappedCreatedEntity);
 
             return mappedCreatedEntity;
@@ -119,7 +104,7 @@ namespace BlogWebApp.BLL.Services.Implementations
         {
             var mappedEntityForUpdate = Mapper.Map<ArticleViewModel, Article>(entity);
 
-            var unmappedUpdatedEntity = _articleRepository.Update(mappedEntityForUpdate);
+            var unmappedUpdatedEntity = _unitOfWork.Articles.Update(mappedEntityForUpdate);
             var mappedUpdatedEntity = Mapper.Map<Article, ArticleViewModel>(unmappedUpdatedEntity);
 
             return mappedUpdatedEntity;
@@ -127,12 +112,12 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public void Delete(Guid id)
         {
-            _articleRepository.Delete(id);
+            _unitOfWork.Articles.Delete(id);
         }
 
         public void Save()
         {
-            _articleRepository.Save();
+            _unitOfWork.Save();
         }
     }
 }

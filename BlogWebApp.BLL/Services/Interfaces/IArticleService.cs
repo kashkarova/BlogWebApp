@@ -13,8 +13,6 @@ namespace BlogWebApp.BLL.Services.Interfaces
         List<ArticleViewModel> GetAll();
         List<ArticleViewModel> GetAll(Expression<Func<ArticleViewModel, bool>> predicate);
 
-        ArticleViewModel First(Expression<Func<ArticleViewModel, bool>> predicate);
-
         bool Exists(Guid id);
         bool Exists(Expression<Func<ArticleViewModel, bool>> predicate);
 

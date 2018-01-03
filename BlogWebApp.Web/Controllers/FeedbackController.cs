@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using BlogWebApp.BLL.Services.Implementations;
 using BlogWebApp.BLL.Services.Interfaces;
 using BlogWebApp.ViewModel;
 
@@ -11,9 +10,9 @@ namespace BlogWebApp.Web.Controllers
     {
         private readonly IFeedbackService _feedbackService;
 
-        public FeedbackController()
+        public FeedbackController(IFeedbackService feedbackService)
         {
-            _feedbackService = new FeedbackService();
+            _feedbackService = feedbackService;
         }
 
         // GET: Feedback

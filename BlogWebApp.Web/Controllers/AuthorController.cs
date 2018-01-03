@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using BlogWebApp.BLL.Services.Implementations;
 using BlogWebApp.BLL.Services.Interfaces;
 using BlogWebApp.ViewModel;
 
@@ -11,9 +10,9 @@ namespace BlogWebApp.Web.Controllers
     {
         private readonly IAuthorService _authorService;
 
-        public AuthorController()
+        public AuthorController(IAuthorService authorService)
         {
-            _authorService = new AuthorService();
+            _authorService = authorService;
         }
 
         // GET: Author

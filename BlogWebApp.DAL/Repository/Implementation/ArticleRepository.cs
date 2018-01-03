@@ -6,10 +6,6 @@ namespace BlogWebApp.DAL.Repository.Implementation
 {
     public class ArticleRepository : GenericRepository<Article>, IArticleRepository
     {
-        public ArticleRepository()
-        {
-        }
-
         public ArticleRepository(BlogDb db) : base(db)
         {
         }

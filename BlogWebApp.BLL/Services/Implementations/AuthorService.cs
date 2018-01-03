@@ -8,24 +8,23 @@ using BlogWebApp.BLL.Services.Interfaces;
 using BlogWebApp.DAL.DbContext;
 using BlogWebApp.DAL.DbEntities;
 using BlogWebApp.DAL.Repository.Implementation;
+using BlogWebApp.DAL.UoW.Interface;
 using BlogWebApp.ViewModel;
 
 namespace BlogWebApp.BLL.Services.Implementations
 {
     public class AuthorService : IAuthorService
     {
-        private readonly AuthorRepository _authorRepository;
-        private readonly BlogDb _db;
+        private readonly IBlogWebAppUnitOfWork _unitOfWork;
 
-        public AuthorService()
+        public AuthorService(IBlogWebAppUnitOfWork unitOfWork)
         {
-            _db = new BlogDb();
-            _authorRepository = new AuthorRepository(_db);
+            _unitOfWork = unitOfWork;
         }
 
         public AuthorViewModel Get(Guid id)
         {
-            var unmapperAuthor = _authorRepository.Get(id);
+            var unmapperAuthor = _unitOfWork.Authors.Get(id);
             var mappedAuthor = Mapper.Map<Author, AuthorViewModel>(unmapperAuthor);
 
             return mappedAuthor;
@@ -36,7 +35,7 @@ namespace BlogWebApp.BLL.Services.Implementations
             var mappedPredicate =
                 Mapper.Map<Expression<Func<AuthorViewModel, bool>>, Expression<Func<Author, bool>>>(predicate);
 
-            var unmapperAuthor = _authorRepository.Get(mappedPredicate);
+            var unmapperAuthor = _unitOfWork.Authors.Get(mappedPredicate);
             var mappedAuthor = Mapper.Map<Author, AuthorViewModel>(unmapperAuthor);
 
             return mappedAuthor;
@@ -44,7 +43,7 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public List<AuthorViewModel> GetAll()
         {
-            var unmappedList = _authorRepository.GetAll();
+            var unmappedList = _unitOfWork.Authors.GetAll();
             var mappedList = Mapper.Map<List<Author>, List<AuthorViewModel>>(unmappedList.ToList());
 
             return mappedList;
@@ -55,26 +54,15 @@ namespace BlogWebApp.BLL.Services.Implementations
             var mappedPredicate =
                 Mapper.Map<Expression<Func<AuthorViewModel, bool>>, Expression<Func<Author, bool>>>(predicate);
 
-            var unmappedList = _authorRepository.GetAll(mappedPredicate);
+            var unmappedList = _unitOfWork.Authors.GetAll(mappedPredicate);
             var mappedList = Mapper.Map<List<Author>, List<AuthorViewModel>>(unmappedList.ToList());
 
             return mappedList;
         }
 
-        public AuthorViewModel First(Expression<Func<AuthorViewModel, bool>> predicate)
-        {
-            var mappedPredicate =
-                Mapper.Map<Expression<Func<AuthorViewModel, bool>>, Expression<Func<Author, bool>>>(predicate);
-
-            var unmappedAuthor = _authorRepository.First(mappedPredicate);
-            var mappedAuthor = Mapper.Map<Author, AuthorViewModel>(unmappedAuthor);
-
-            return mappedAuthor;
-        }
-
         public bool Exists(Guid id)
         {
-            return _authorRepository.Exists(id);
+            return _unitOfWork.Authors.Exists(id);
         }
 
         public bool Exists(Expression<Func<AuthorViewModel, bool>> predicate)
@@ -82,12 +70,12 @@ namespace BlogWebApp.BLL.Services.Implementations
             var mappedPredicate =
                 Mapper.Map<Expression<Func<AuthorViewModel, bool>>, Expression<Func<Author, bool>>>(predicate);
 
-            return _authorRepository.Exists(mappedPredicate);
+            return _unitOfWork.Authors.Exists(mappedPredicate);
         }
 
         public int Count()
         {
-            return _authorRepository.Count();
+            return _unitOfWork.Authors.Count();
         }
 
         public int Count(Expression<Func<AuthorViewModel, bool>> predicate)
@@ -95,17 +83,17 @@ namespace BlogWebApp.BLL.Services.Implementations
             var mappedPredicate =
                 Mapper.Map<Expression<Func<AuthorViewModel, bool>>, Expression<Func<Author, bool>>>(predicate);
 
-            return _authorRepository.Count(mappedPredicate);
+            return _unitOfWork.Authors.Count(mappedPredicate);
         }
 
         public AuthorViewModel Create(AuthorViewModel entity)
         {
             var mappedEntityForCreate = Mapper.Map<AuthorViewModel, Author>(entity);
 
-            if (_authorRepository.Exists(e => e.NickName == mappedEntityForCreate.NickName))
+            if (_unitOfWork.Authors.Exists(e => e.NickName == mappedEntityForCreate.NickName))
                 throw new DbEntityValidationException();
 
-            var unmappedCreatedEntity = _authorRepository.Create(mappedEntityForCreate);
+            var unmappedCreatedEntity = _unitOfWork.Authors.Create(mappedEntityForCreate);
             var mappedCreatedEntity = Mapper.Map<Author, AuthorViewModel>(unmappedCreatedEntity);
 
             return mappedCreatedEntity;
@@ -115,7 +103,7 @@ namespace BlogWebApp.BLL.Services.Implementations
         {
             var mappedEntityForUpdate = Mapper.Map<AuthorViewModel, Author>(entity);
 
-            var unmappedUpdatedEntity = _authorRepository.Update(mappedEntityForUpdate);
+            var unmappedUpdatedEntity = _unitOfWork.Authors.Update(mappedEntityForUpdate);
             var mappedUpdatedEntity = Mapper.Map<Author, AuthorViewModel>(unmappedUpdatedEntity);
 
             return mappedUpdatedEntity;
@@ -123,12 +111,12 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public void Delete(Guid id)
         {
-            _authorRepository.Delete(id);
+            _unitOfWork.Authors.Delete(id);
         }
 
         public void Save()
         {
-            _authorRepository.Save();
+            _unitOfWork.Save();
         }
     }
 }

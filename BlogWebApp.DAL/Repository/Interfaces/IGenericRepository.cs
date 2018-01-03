@@ -14,8 +14,6 @@ namespace BlogWebApp.DAL.Repository.Interfaces
         IQueryable<TEntity> GetAll();
         IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate);
 
-        TEntity First(Expression<Func<TEntity, bool>> predicate);
-
         bool Exists(Guid id);
         bool Exists(Expression<Func<TEntity, bool>> predicate);
 
@@ -25,6 +23,5 @@ namespace BlogWebApp.DAL.Repository.Interfaces
         TEntity Create(TEntity entity);
         TEntity Update(TEntity entity);
         void Delete(Guid id);
-        void Save();
     }
 }
