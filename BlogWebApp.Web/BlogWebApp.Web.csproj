@@ -253,6 +253,10 @@
       <Project>{28b763c4-88d6-4972-ae85-eb651c8c0c72}</Project>
       <Name>BlogWebApp.BLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BlogWebApp.DI\BlogWebApp.DI.csproj">
+      <Project>{40533DAF-AD46-41CE-83A4-72E56FB0096E}</Project>
+      <Name>BlogWebApp.DI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BlogWebApp.ViewModel\BlogWebApp.ViewModel.csproj">
       <Project>{2d01bcfe-d2be-4b6b-8c74-6cd159fc7b75}</Project>
       <Name>BlogWebApp.ViewModel</Name>

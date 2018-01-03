@@ -4,12 +4,14 @@ using BlogWebApp.DAL.DbEntities;
 using BlogWebApp.DAL.Repository.Implementation;
 using BlogWebApp.DAL.Repository.Interfaces;
 using BlogWebApp.DAL.UoW.Interface;
+using Ninject;
 
 namespace BlogWebApp.DAL.UoW.Implementation
 {
     public class BlogWebAppUnitOfWork : IBlogWebAppUnitOfWork, IDisposable
     {
-        private readonly BlogDb _db;
+        [Inject]
+        private readonly BlogDb _db = new BlogDb();
 
         public IGenericRepository<Article> Articles { get; }
         public IGenericRepository<Author> Authors { get; }
