@@ -47,12 +47,19 @@ textarea { max-width: 280px; }
     margin-left: 2%;
 }
 
+
 .right-side {
     float: right;
     height: 17em;
     position: relative;
     top: 5.6em;
     width: 23%;
+}
+
+.votation p{
+    margin-top: 15%;
+    font: normal 1.5em sans-serif;
+    color: darkblue;
 }
 
 footer { clear: both; }
