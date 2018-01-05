@@ -12,31 +12,31 @@
     <div class="card-body">
         <h5 class="card-title">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h5>
         <h6 class="card-subtitle text-muted">age: @Html.DisplayFor(model => model.Age)</h6>
-        <br />
+        <br/>
         <h6 class="card-subtitle text-muted">from: @Html.DisplayFor(model => model.Country)</h6>
     </div>
     <div class="card-body">
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
-                @Html.LabelFor(model => model.Gender, new { @class = "text-muted" })
+                @Html.LabelFor(model => model.Gender, new {@class = "text-muted"})
                 @Html.DisplayFor(model => model.Gender)
             </li>
             <li class="list-group-item">
-                @Html.LabelFor(model => model.FavouriteColor, new { @class = "text-muted" })
+                @Html.LabelFor(model => model.FavouriteColor, new {@class = "text-muted"})
                 @Html.DisplayFor(model => model.FavouriteColor)
             </li>
             <li class="list-group-item">
-                @Html.LabelFor(model => model.HavePets, new { @class = "text-muted" })
+                @Html.LabelFor(model => model.HavePets, new {@class = "text-muted"})
                 @Html.DisplayFor(model => model.HavePets)
             </li>
             <li class="list-group-item">
-                @Html.LabelFor(model => model.RideABike, new { @class = "text-muted" })
+                @Html.LabelFor(model => model.RideABike, new {@class = "text-muted"})
                 @Html.DisplayFor(model => model.RideABike)
             </li>
         </ul>
     </div>
     <div class="card-footer">
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
-        @Html.ActionLink("Go to all authors", "Index", null, new { @class = "btn btn-secondary" })
+        @Html.ActionLink("Edit", "Edit", new {id = Model.Id}, new {@class = "btn btn-primary"})
+        @Html.ActionLink("Go to all authors", "Index", null, new {@class = "btn btn-secondary"})
     </div>
 </div>

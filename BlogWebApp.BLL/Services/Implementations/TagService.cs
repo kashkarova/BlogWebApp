@@ -30,16 +30,15 @@ namespace BlogWebApp.BLL.Services.Implementations
         public List<string> GetAllTagTitles(Expression<Func<ArticleAndTagViewModel, bool>> predicate)
         {
             var mappedPredicate =
-                Mapper.Map<Expression<Func<ArticleAndTagViewModel, bool>>, Expression<Func<ArticleAndTag, bool>>>(predicate);
+                Mapper.Map<Expression<Func<ArticleAndTagViewModel, bool>>, Expression<Func<ArticleAndTag, bool>>>(
+                    predicate);
 
             var unmappedTags = _unitOfWork.ArticlesAndTags.GetAll(mappedPredicate);
 
             var tagTitlesList = new List<string>();
 
             foreach (var tag in unmappedTags)
-            {
-                tagTitlesList.Add(_unitOfWork.Tags.Get(t=>t.Id==tag.TagId).Title);
-            }
+                tagTitlesList.Add(_unitOfWork.Tags.Get(t => t.Id == tag.TagId).Title);
 
             return tagTitlesList;
         }
@@ -48,14 +47,12 @@ namespace BlogWebApp.BLL.Services.Implementations
         {
             //add new tag to Tag table
             foreach (var item in tags)
-            {
                 if (!_unitOfWork.Tags.Exists(t => t.Title == item))
                 {
-                    var tag = new Tag() { Title = item };
+                    var tag = new Tag {Title = item};
 
                     _unitOfWork.Tags.Create(tag);
                 }
-            }
 
             _unitOfWork.Save();
         }
@@ -64,12 +61,11 @@ namespace BlogWebApp.BLL.Services.Implementations
         public void AddTagsToArticle(Guid articleId, List<string> tags)
         {
             foreach (var tag in tags)
-            {
                 if (_unitOfWork.Tags.Exists(t => t.Title == tag))
                 {
                     var foundedTag = _unitOfWork.Tags.Get(t => t.Title == tag);
 
-                    var articleAndTagEntity = new ArticleAndTag()
+                    var articleAndTagEntity = new ArticleAndTag
                     {
                         ArticleId = articleId,
                         TagId = foundedTag.Id
@@ -77,7 +73,6 @@ namespace BlogWebApp.BLL.Services.Implementations
 
                     _unitOfWork.ArticlesAndTags.Create(articleAndTagEntity);
                 }
-            }
             _unitOfWork.Save();
         }
 

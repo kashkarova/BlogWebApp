@@ -21,11 +21,35 @@ namespace BlogWebApp.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var articles = _articleService.GetAll().OrderByDescending(a => a.Date);
+            var articles = _articleService.GetAll().OrderByDescending(a => a.Date).ToList();
 
             foreach (var article in articles)
             {
-                article.HashTags = _tagService.GetAllTagTitles(t => t.ArticleId == article.Id).ToList();
+                var hashTags = _tagService.GetAllTagTitles(t => t.ArticleId == article.Id).ToList();
+
+                if (hashTags.Count == 0)
+                    continue;
+
+                article.HashTags = hashTags;
+            }
+
+            return View(articles);
+        }
+
+
+        public ActionResult FilterArticlesByTag(string hashTag)
+        {
+            var articles = _tagService.GetArticlesByTag(hashTag);
+            ViewData["tag"] = hashTag;
+
+            foreach (var article in articles)
+            {
+                var hashTags = _tagService.GetAllTagTitles(t => t.ArticleId == article.Id).ToList();
+
+                if (hashTags.Count == 0)
+                    continue;
+
+                article.HashTags = hashTags;
             }
 
             return View(articles);
@@ -42,12 +66,14 @@ namespace BlogWebApp.Web.Controllers
         public ActionResult Create(ArticleViewModel item, string hashTags)
         {
             if (!ModelState.IsValid)
-            {
                 return View(item);
-            }
 
             // Validation of unique field Title
-            if (_articleService.Exists(i => i.Title == item.Title))
+            if (!_articleService.Exists(i => i.Title == item.Title))
+            {
+                item.Id = Guid.NewGuid();
+            }
+            else
             {
                 ViewBag.error = "Such title is exists!";
                 return View(item);
@@ -71,9 +97,7 @@ namespace BlogWebApp.Web.Controllers
         public ActionResult Edit(ArticleViewModel item)
         {
             if (!ModelState.IsValid)
-            {
                 return View(item);
-            }
 
             _articleService.Update(item);
             _articleService.Save();
@@ -90,6 +114,11 @@ namespace BlogWebApp.Web.Controllers
             _articleService.Save();
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Votation(bool? havePets)
+        {
+            return PartialView(havePets == true ? "VotationTrue" : "VotationFalse");
         }
     }
 }

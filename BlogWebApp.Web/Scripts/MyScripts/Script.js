@@ -20,7 +20,7 @@ function HideAllArticles() {
             continue;
         }
         articles[i].style.height = (line * 5) + "px";
-        articles[i].style.overflow = "hidden";    
+        articles[i].style.overflow = "hidden";
     }
 }
 
@@ -58,7 +58,7 @@ function ShowOneArticle(id) {
 
 function ChangeDisplayingArticle(id) {
 
-    var button = document.getElementById(id).getElementsByClassName("accordeon")[0];  
+    var button = document.getElementById(id).getElementsByClassName("accordeon")[0];
 
     if (button.innerHTML === "Show") {
         ShowOneArticle(id);

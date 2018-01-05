@@ -11,7 +11,7 @@ namespace BlogWebApp.BLL.Automapper
         {
             CreateMap<Author, AuthorViewModel>().ReverseMap();
             CreateMap<Article, ArticleViewModel>()
-                .ForMember(d => d.HashTags, (options) => options.Ignore()).ReverseMap();
+                .ForMember(d => d.HashTags, options => options.Ignore()).ReverseMap();
 
             CreateMap<Feedback, FeedbackViewModel>().ReverseMap();
             CreateMap<AuthorAndArticle, AuthorAndArticleViewModel>().ReverseMap();

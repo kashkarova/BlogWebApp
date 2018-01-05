@@ -56,10 +56,10 @@ textarea { max-width: 280px; }
     width: 23%;
 }
 
-.votation p{
-    margin-top: 15%;
-    font: normal 1.5em sans-serif;
+.votation p {
     color: darkblue;
+    font: normal 1.5em sans-serif;
+    margin-top: 15%;
 }
 
 footer { clear: both; }

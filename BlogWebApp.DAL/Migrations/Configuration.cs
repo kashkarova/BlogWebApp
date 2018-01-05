@@ -153,7 +153,7 @@ namespace BlogWebApp.DAL.Migrations
                 {
                     Title = "#tag2"
                 }
-                );
+            );
         }
     }
 }

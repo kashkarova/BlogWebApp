@@ -8,7 +8,7 @@
 <h2 class="page-title">Authors</h2>
 
 <p>
-    @Html.ActionLink("Fill a questionare", "Create", null, new { @class = "btn btn-success" })
+    @Html.ActionLink("Fill a questionare", "Create", null, new {@class = "btn btn-success"})
 </p>
 
 @foreach (var item in Model)
@@ -22,16 +22,16 @@
         <div class="card-footer">
             <ul class="buttons-edit-delete">
                 <li>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Edit", "Edit", new {id = item.Id}, new {@class = "btn btn-primary"})
                 </li>
                 <li>
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-secondary" })
+                    @Html.ActionLink("Details", "Details", new {id = item.Id}, new {@class = "btn btn-secondary"})
                 </li>
                 <li>
-                    @using (Html.BeginForm("Delete", "Author", new { id = item.Id }))
+                    @using (Html.BeginForm("Delete", "Author", new {id = item.Id}))
                     {
                         @Html.AntiForgeryToken()
-                        <input type="submit" value="Delete" class="btn btn-warning" />
+                        <input type="submit" value="Delete" class="btn btn-warning"/>
                     }
                 </li>
             </ul>

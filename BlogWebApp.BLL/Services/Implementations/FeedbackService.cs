@@ -5,9 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
 using BlogWebApp.BLL.Services.Interfaces;
-using BlogWebApp.DAL.DbContext;
 using BlogWebApp.DAL.DbEntities;
-using BlogWebApp.DAL.Repository.Implementation;
 using BlogWebApp.DAL.UoW.Interface;
 using BlogWebApp.ViewModel;
 

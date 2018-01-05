@@ -13,8 +13,8 @@ namespace BlogWebApp.BLL.Services.Implementations
 {
     public class ArticleService : IArticleService
     {
-        private readonly IBlogWebAppUnitOfWork _unitOfWork;
         private readonly ITagService _tagService;
+        private readonly IBlogWebAppUnitOfWork _unitOfWork;
 
         public ArticleService(IBlogWebAppUnitOfWork unitOfWork)
         {
@@ -96,14 +96,21 @@ namespace BlogWebApp.BLL.Services.Implementations
             if (_unitOfWork.Articles.Exists(e => e.Title == mappedEntityForCreate.Title))
                 throw new DbEntityValidationException();
 
+            //create new article
             var unmappedCreatedEntity = _unitOfWork.Articles.Create(mappedEntityForCreate);
             _unitOfWork.Save();
 
+            //split tags from string to list
             var tagList = tags.Split(' ').ToList();
+
+            //add record to Tag table, if list of tags contains something new
             _tagService.AddNewTag(unmappedCreatedEntity.Id, tagList);
+
+            //binding tags to article
             _tagService.AddTagsToArticle(unmappedCreatedEntity.Id, tagList);
+
             var mappedCreatedEntity = Mapper.Map<Article, ArticleViewModel>(unmappedCreatedEntity);
-            
+
             return mappedCreatedEntity;
         }
 

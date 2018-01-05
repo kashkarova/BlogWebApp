@@ -4,7 +4,7 @@ using BlogWebApp.DAL.Repository.Interfaces;
 
 namespace BlogWebApp.DAL.Repository.Implementation
 {
-    public class TagRepository:GenericRepository<Tag>, ITagRepository
+    public class TagRepository : GenericRepository<Tag>, ITagRepository
     {
         public TagRepository(BlogDb db) : base(db)
         {

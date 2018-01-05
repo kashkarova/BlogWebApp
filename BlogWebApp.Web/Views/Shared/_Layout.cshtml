@@ -1,48 +1,48 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
 </head>
 <body onload="HideAllArticles()">
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation" style="">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div>
-            <img src="~/Content/img/logo.png" alt="logo" id="logo" />
-        </div>
-        <div class="collapse navbar-collapse" id="navbarColor02">
-            @Html.ActionLink("Blog", "Index", "Article", new { area = "" }, new { @class = "navbar-brand" })
-        </div>
-    </nav>
-    <div class="container body-content">
-        <div class="main-body">
-            @RenderBody()
-        </div>
-        <div class="right-side">
-            <ul class="nav nav-pills flex-column ">
-                <li class="nav-item">
-                    @Html.ActionLink("Articles", "Index", "Article", null, new { @class = "nav-link active list-group-item list-group-item-action" })
-                </li>
-                <li class="nav-item">
-                    @Html.ActionLink("Feedbacks", "Index", "Feedback", null, new { @class = "nav-link list-group-item list-group-item-action" })
-                </li>
-                <li class="nav-item">
-                    @Html.ActionLink("Questionare", "Index", "Author", null, new { @class = "nav-link active list-group-item list-group-item-action" })
-                </li>
-            </ul>    
-            @RenderSection("Votation", false)
-        </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation" style="">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div>
+        <img src="~/Content/img/logo.png" alt="logo" id="logo"/>
     </div>
-    <footer class="navbar navbar-expand-lg navbar-light bg-dark">
-        <h6>&copy; @DateTime.Now.Year - Tetiana Kashkarova</h6>
-        <a href="#" id="goTop" onclick="goTop()">Go top</a>
-    </footer>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/scripts")
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        @Html.ActionLink("Blog", "Index", "Article", new {area = ""}, new {@class = "navbar-brand"})
+    </div>
+</nav>
+<div class="container body-content">
+    <div class="main-body">
+        @RenderBody()
+    </div>
+    <div class="right-side">
+        <ul class="nav nav-pills flex-column ">
+            <li class="nav-item">
+                @Html.ActionLink("Articles", "Index", "Article", null, new {@class = "nav-link list-group-item list-group-item-action"})
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("Feedbacks", "Index", "Feedback", null, new {@class = "nav-link list-group-item list-group-item-action"})
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("Questionare", "Index", "Author", null, new {@class = "nav-link list-group-item list-group-item-action"})
+            </li>
+        </ul>
+        @RenderSection("Votation", false)
+    </div>
+</div>
+<footer class="navbar navbar-expand-lg navbar-light bg-dark">
+    <h6>&copy; @DateTime.Now.Year - Tetiana Kashkarova</h6>
+    <a href="#" id="goTop" onclick="goTop()">Go top</a>
+</footer>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/scripts")
 </body>
 </html>

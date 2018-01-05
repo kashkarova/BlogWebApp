@@ -69,9 +69,7 @@ namespace BlogWebApp.Web.Controllers
         public ActionResult Edit(AuthorViewModel item)
         {
             if (!ModelState.IsValid)
-            {
                 return View(item);
-            }
 
             _authorService.Update(item);
             _authorService.Save();

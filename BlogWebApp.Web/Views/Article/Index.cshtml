@@ -1,5 +1,4 @@
-﻿@using Microsoft.Ajax.Utilities
-@model IEnumerable<BlogWebApp.ViewModel.ArticleViewModel>
+﻿@model IEnumerable<BlogWebApp.ViewModel.ArticleViewModel>
 @{
     ViewBag.Title = "Index";
     Layout = "../Shared/_Layout.cshtml";
@@ -7,57 +6,69 @@
 
 <h2 class="page-title">Articles</h2>
 <p>
-    @Html.ActionLink("Create article", "Create", null, new { @class = "btn btn-success" })
+    @Html.ActionLink("Create article", "Create", null, new {@class = "btn btn-success"})
 </p>
-@foreach (var item in Model)
-{
-    <div class="card border-primary mb-3" id="@item.Id">
-        <div class="card-header">
-            @Html.LabelFor(modelItem => item.Title, new { @class = "text-muted" })
-            @Html.DisplayFor(modelItem => item.Title)
 
-            @Html.LabelFor(modelItem => item.Date, new { @class = "text-muted", style = "margin-left:2%;" })
-            @Html.DisplayFor(modelItem => item.Date)
-        </div>
-        <div class="card-body text-primary">
-            <h4 class="card-title">@Html.DisplayFor(modelItem => item.Description)</h4>
-            <p class="card-text">@Html.DisplayFor(modelItem => item.Text)</p>
-            @foreach (var tag in item.HashTags)
-            {
-                @Ajax.ActionLink(tag, "", new AjaxOptions())
-            }
-        </div>
-        <div class="card-footer">
-            <ul class="buttons-edit-delete">
-                <li>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })
-                </li>
-                <li>
-                    @using (Html.BeginForm("Delete", "Article", new { id = item.Id }))
+@using (Ajax.BeginForm("FilterArticlesByTag", "Article", new AjaxOptions {UpdateTargetId = "unfilteredArticles"}))
+{
+    <div id="unfilteredArticles">
+        @foreach (var item in Model)
+        {
+            <div class="card border-primary mb-3" id="@item.Id">
+                <div class="card-header">
+                    @Html.LabelFor(modelItem => item.Title, new {@class = "text-muted"})
+                    @Html.DisplayFor(modelItem => item.Title)
+
+                    @Html.LabelFor(modelItem => item.Date, new {@class = "text-muted", style = "margin-left:2%;"})
+                    @Html.DisplayFor(modelItem => item.Date)
+                </div>
+                <div class="card-body text-primary">
+                    <h4 class="card-title">@Html.DisplayFor(modelItem => item.Description)</h4>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.Text)</p>
+                    @foreach (var tag in item.HashTags)
                     {
-                        @Html.AntiForgeryToken()
-                        <input type="submit" value="Delete" class="btn btn-warning" />
+                        @Html.ActionLink(tag, "FilterArticlesByTag", new {hashTag = tag}, new AjaxOptions {UpdateTargetId = "main-body"})
                     }
-                </li>
-                <li>
-                    <button class="btn btn-secondary accordeon" onclick="ChangeDisplayingArticle('@item.Id')">Show</button>
-                </li>
-            </ul>
-        </div>
+                </div>
+                <div class="card-footer">
+                    <ul class="buttons-edit-delete">
+                        <li>
+                            @Html.ActionLink("Edit", "Edit", new {id = item.Id}, new {@class = "btn btn-primary"})
+                        </li>
+                        <li>
+                            @using (Html.BeginForm("Delete", "Article", new {id = item.Id}))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="submit" value="Delete" class="btn btn-warning"/>
+                            }
+                        </li>
+                        <li>
+                            <button class="btn btn-secondary accordeon" onclick="ChangeDisplayingArticle('@item.Id')">Show</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        }
     </div>
 }
+
+
+
 @section Votation{
     <div class="votation">
-        <p>Do you like cats?</p>
-        @using (Html.BeginForm())
+        @using (Ajax.BeginForm("Votation", "Article", new AjaxOptions {UpdateTargetId = "vote"}))
         {
-            @Html.Label("Yes")
-            @Html.RadioButton("Yes", "Yes")
-            <br/>
-            @Html.Label("No")
-            @Html.RadioButton("No", "No")
-            <br/>
-            <button type="submit">Vote</button>
+            <div id="vote">
+                @Html.Label("Do you have pets?", new {@class = "col-form-label"})
+                <div>
+                    @Html.RadioButton("havePets", true, new {htmlAttributes = new {@class = "form-control"}})
+                    <span>Yes</span><br/>
+                    @Html.RadioButton("havePets", false, new {htmlAttributes = new {@class = "form-control"}})
+                    <span>No</span><br/>
+                    @Html.ValidationMessage("havePets", "", new {@class = "text-danger"})
+                </div>
+                <button type="submit" class="btn btn-primary">Vote</button>
+            </div>
         }
     </div>
 }

@@ -35,9 +35,7 @@ namespace BlogWebApp.Web.Controllers
         public ActionResult Create(FeedbackViewModel item)
         {
             if (!ModelState.IsValid)
-            {
                 return View(item);
-            }
 
             // Validation of unique field Author
             if (!_feedbackService.Exists(i => i.Author == item.Author))
@@ -69,9 +67,7 @@ namespace BlogWebApp.Web.Controllers
         public ActionResult Edit(FeedbackViewModel item)
         {
             if (!ModelState.IsValid)
-            {
                 return View(item);
-            }
 
             _feedbackService.Update(item);
             _feedbackService.Save();
