@@ -15,5 +15,7 @@ namespace BlogWebApp.DAL.DbContext
         public DbSet<Article> Article { get; set; }
         public DbSet<AuthorAndArticle> AuthorAndArticle { get; set; }
         public DbSet<Feedback> Feedback { get; set; }
+        public DbSet<Tag> Tag { get; set; }
+        public DbSet<ArticleAndTag> ArticleAndTag { get; set; }
     }
 }

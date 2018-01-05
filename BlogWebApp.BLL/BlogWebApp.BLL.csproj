@@ -56,9 +56,11 @@
     <Compile Include="Services\Implementations\ArticleService.cs" />
     <Compile Include="Services\Implementations\AuthorService.cs" />
     <Compile Include="Services\Implementations\FeedbackService.cs" />
+    <Compile Include="Services\Implementations\TagService.cs" />
     <Compile Include="Services\Interfaces\IArticleService.cs" />
     <Compile Include="Services\Interfaces\IAuthorService.cs" />
     <Compile Include="Services\Interfaces\IFeedbackService.cs" />
+    <Compile Include="Services\Interfaces\ITagService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

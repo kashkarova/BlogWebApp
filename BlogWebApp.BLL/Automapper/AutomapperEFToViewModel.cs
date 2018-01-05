@@ -10,9 +10,13 @@ namespace BlogWebApp.BLL.Automapper
         public AutomapperEFToViewModel()
         {
             CreateMap<Author, AuthorViewModel>().ReverseMap();
-            CreateMap<Article, ArticleViewModel>().ReverseMap();
+            CreateMap<Article, ArticleViewModel>()
+                .ForMember(d => d.HashTags, (options) => options.Ignore()).ReverseMap();
+
             CreateMap<Feedback, FeedbackViewModel>().ReverseMap();
             CreateMap<AuthorAndArticle, AuthorAndArticleViewModel>().ReverseMap();
+            CreateMap<Tag, TagViewModel>().ReverseMap();
+            CreateMap<ArticleAndTag, ArticleAndTagViewModel>().ReverseMap().MaxDepth(2);
         }
     }
 }

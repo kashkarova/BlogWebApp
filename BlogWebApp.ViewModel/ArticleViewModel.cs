@@ -26,7 +26,17 @@ namespace BlogWebApp.ViewModel
         [DisplayFormat(DataFormatString = "{0:dd'-'MM'-'yyyy}", ApplyFormatInEditMode = true)]
         [DisplayName("Date of publishing")]
         public DateTime Date { get; set; }
+        
+        [DisplayName("Hashtags")]
+        public List<string> HashTags { get; set; }
 
         public virtual List<AuthorAndArticleViewModel> Authors { get; set; }
+
+        public virtual List<ArticleAndTagViewModel> Tags { get; set; }
+
+        public ArticleViewModel()
+        {
+            HashTags = new List<string>();
+        }
     }
 }

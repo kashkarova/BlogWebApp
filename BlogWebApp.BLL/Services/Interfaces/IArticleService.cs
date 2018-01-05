@@ -19,7 +19,7 @@ namespace BlogWebApp.BLL.Services.Interfaces
         int Count();
         int Count(Expression<Func<ArticleViewModel, bool>> predicate);
 
-        ArticleViewModel Create(ArticleViewModel entity);
+        ArticleViewModel Create(ArticleViewModel entity, string tags);
         ArticleViewModel Update(ArticleViewModel entity);
         void Delete(Guid id);
         void Save();

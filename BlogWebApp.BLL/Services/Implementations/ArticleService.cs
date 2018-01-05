@@ -14,10 +14,12 @@ namespace BlogWebApp.BLL.Services.Implementations
     public class ArticleService : IArticleService
     {
         private readonly IBlogWebAppUnitOfWork _unitOfWork;
+        private readonly ITagService _tagService;
 
         public ArticleService(IBlogWebAppUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+            _tagService = new TagService(_unitOfWork);
         }
 
         public ArticleViewModel Get(Guid id)
@@ -87,7 +89,7 @@ namespace BlogWebApp.BLL.Services.Implementations
             return _unitOfWork.Articles.Count(mappedPredicate);
         }
 
-        public ArticleViewModel Create(ArticleViewModel entity)
+        public ArticleViewModel Create(ArticleViewModel entity, string tags)
         {
             var mappedEntityForCreate = Mapper.Map<ArticleViewModel, Article>(entity);
 
@@ -95,8 +97,13 @@ namespace BlogWebApp.BLL.Services.Implementations
                 throw new DbEntityValidationException();
 
             var unmappedCreatedEntity = _unitOfWork.Articles.Create(mappedEntityForCreate);
-            var mappedCreatedEntity = Mapper.Map<Article, ArticleViewModel>(unmappedCreatedEntity);
+            _unitOfWork.Save();
 
+            var tagList = tags.Split(' ').ToList();
+            _tagService.AddNewTag(unmappedCreatedEntity.Id, tagList);
+            _tagService.AddTagsToArticle(unmappedCreatedEntity.Id, tagList);
+            var mappedCreatedEntity = Mapper.Map<Article, ArticleViewModel>(unmappedCreatedEntity);
+            
             return mappedCreatedEntity;
         }
 

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<BlogWebApp.ViewModel.ArticleViewModel>
+﻿@using Microsoft.Ajax.Utilities
+@model IEnumerable<BlogWebApp.ViewModel.ArticleViewModel>
 @{
     ViewBag.Title = "Index";
     Layout = "../Shared/_Layout.cshtml";
@@ -21,7 +22,15 @@
         <div class="card-body text-primary">
             <h4 class="card-title">@Html.DisplayFor(modelItem => item.Description)</h4>
             <p class="card-text">@Html.DisplayFor(modelItem => item.Text)</p>
-            <h5>Tags tags tags</h5>
+            @foreach (var tag in item.HashTags)
+            {
+                if (tag.IsNullOrWhiteSpace())
+                {
+                    continue;
+                }
+
+                @Ajax.ActionLink(tag, "", new AjaxOptions())
+            }
         </div>
         <div class="card-footer">
             <ul class="buttons-edit-delete">

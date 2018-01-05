@@ -17,6 +17,8 @@ namespace BlogWebApp.DAL.UoW.Implementation
         public IGenericRepository<Author> Authors { get; }
         public IGenericRepository<AuthorAndArticle> AuthorsAndArticles { get; }
         public IGenericRepository<Feedback> Feedbacks { get; }
+        public IGenericRepository<Tag> Tags { get;}
+        public IGenericRepository<ArticleAndTag> ArticlesAndTags { get;}
 
         public BlogWebAppUnitOfWork()
         {
@@ -24,6 +26,8 @@ namespace BlogWebApp.DAL.UoW.Implementation
             Authors = new GenericRepository<Author>(_db);
             AuthorsAndArticles = new GenericRepository<AuthorAndArticle>(_db);
             Feedbacks = new GenericRepository<Feedback>(_db);
+            Tags=new GenericRepository<Tag>(_db);
+            ArticlesAndTags=new GenericRepository<ArticleAndTag>(_db);
         }
 
         public void Save()

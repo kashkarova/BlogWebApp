@@ -23,5 +23,7 @@ namespace BlogWebApp.DAL.DbEntities
         public DateTime Date { get; set; }
 
         public virtual ICollection<AuthorAndArticle> Authors { get; set; }
+
+        public virtual ICollection<ArticleAndTag> Tags { get; set; }
     }
 }

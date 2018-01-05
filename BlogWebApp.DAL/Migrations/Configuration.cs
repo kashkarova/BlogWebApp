@@ -135,6 +135,25 @@ namespace BlogWebApp.DAL.Migrations
                     Date = DateTime.Now
                 }
             );
+
+            context.Tag.AddOrUpdate(x => x.Title,
+                new Tag
+                {
+                    Title = "#tag"
+                },
+                new Tag
+                {
+                    Title = "#instagram"
+                },
+                new Tag
+                {
+                    Title = "#blog"
+                },
+                new Tag
+                {
+                    Title = "#tag2"
+                }
+                );
         }
     }
 }

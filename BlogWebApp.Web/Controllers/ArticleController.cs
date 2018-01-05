@@ -9,10 +9,12 @@ namespace BlogWebApp.Web.Controllers
     public class ArticleController : Controller
     {
         private readonly IArticleService _articleService;
+        private readonly ITagService _tagService;
 
-        public ArticleController(IArticleService articleService)
+        public ArticleController(IArticleService articleService, ITagService tagService)
         {
             _articleService = articleService;
+            _tagService = tagService;
         }
 
         // GET: Article
@@ -20,6 +22,11 @@ namespace BlogWebApp.Web.Controllers
         public ActionResult Index()
         {
             var articles = _articleService.GetAll().OrderByDescending(a => a.Date);
+
+            foreach (var article in articles)
+            {
+                article.HashTags = _tagService.GetAllTagTitles(t => t.ArticleId == article.Id).ToList();
+            }
 
             return View(articles);
         }
@@ -32,7 +39,7 @@ namespace BlogWebApp.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ArticleViewModel item)
+        public ActionResult Create(ArticleViewModel item, string hashTags)
         {
             if (!ModelState.IsValid)
             {
@@ -40,18 +47,13 @@ namespace BlogWebApp.Web.Controllers
             }
 
             // Validation of unique field Title
-            if (!_articleService.Exists(i => i.Title == item.Title))
-            {
-                item.Id = Guid.NewGuid();
-            }
-            else
+            if (_articleService.Exists(i => i.Title == item.Title))
             {
                 ViewBag.error = "Such title is exists!";
                 return View(item);
             }
 
-            _articleService.Create(item);
-            _articleService.Save();
+            _articleService.Create(item, hashTags);
 
             return RedirectToAction("Index");
         }

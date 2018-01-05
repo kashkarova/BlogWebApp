@@ -11,6 +11,7 @@ namespace BlogWebApp.DI.Modules
             Bind<IArticleService>().To<ArticleService>();
             Bind<IAuthorService>().To<AuthorService>();
             Bind<IFeedbackService>().To<FeedbackService>();
+            Bind<ITagService>().To<TagService>();
         }
     }
 }

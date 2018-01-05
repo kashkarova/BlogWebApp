@@ -9,6 +9,8 @@ namespace BlogWebApp.DAL.UoW.Interface
         IGenericRepository<Author> Authors { get; }
         IGenericRepository<AuthorAndArticle> AuthorsAndArticles { get; }
         IGenericRepository<Feedback> Feedbacks { get; }
+        IGenericRepository<Tag> Tags { get; }
+        IGenericRepository<ArticleAndTag> ArticlesAndTags { get; }
 
         void Save();
     }
