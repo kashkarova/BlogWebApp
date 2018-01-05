@@ -43,7 +43,7 @@ namespace BlogWebApp.Web.Controllers
                 _authorService.Create(author);
                 _authorService.Save();
 
-                return RedirectToAction($"Details/{author.Id}");
+                return RedirectToAction("Details", author.Id);
             }
 
             // Validate NickName field if one is not unique

@@ -9,7 +9,7 @@
     @Html.ActionLink("Create article", "Create", null, new {@class = "btn btn-success"})
 </p>
 
-@using (Ajax.BeginForm("FilterArticlesByTag", "Article", new AjaxOptions {UpdateTargetId = "unfilteredArticles"}))
+@using (Ajax.BeginForm("Index", "Article", new AjaxOptions {UpdateTargetId = "unfilteredArticles"}))
 {
     <div id="unfilteredArticles">
         @foreach (var item in Model)

@@ -41,6 +41,7 @@
         @Html.LabelFor(model => model.HashTags, new {@class = "col-form-label col-md-2"})
         <div class="col-md-10">
             <input type="text" name="hashTags" id="hashTags" class="form-control"/>
+            <span style="color: gray;">Enter tags through a space</span>
             @*@Html.ValidationMessage(null, null, new { @class = "text-danger" })*@
         </div>
     </div>
