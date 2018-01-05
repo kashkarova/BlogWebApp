@@ -110,7 +110,7 @@ namespace BlogWebApp.DAL.Migrations
                 {
                     Title = "First",
                     Description = "First article",
-                    Text = "Lorem ipsum \n dolor sit amet,\n consectetur\n adipiscing elit.\n Integer posuere\n erat a ante.",
+                    Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.",
                     Date = DateTime.Now
                 },
                 new Article
@@ -124,7 +124,12 @@ namespace BlogWebApp.DAL.Migrations
                 {
                     Title = "Third",
                     Description = "First article",
-                    Text = "Lorem ipsum\n dolor sit amet,\n consectetur\n adipiscing elit.\n Integer posuere\n erat a ante.",
+                    Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante." +
+                           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante." +
+                           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante." +
+                           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante." +
+                           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante." +
+                           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.",
                     Date = DateTime.Now
                 },
                 new Article
