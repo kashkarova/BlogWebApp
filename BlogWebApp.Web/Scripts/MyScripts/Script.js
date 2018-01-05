@@ -9,12 +9,18 @@ function HideAllArticles() {
 
     var articles = document.getElementsByClassName("card-body");
 
-    //1.2 - typical size of line-heigh with 'normal' value
-    var line = (1.2 * fontSize) + fontSize;
+    //1.3 - typical size of line-heigh with 'normal' value
+    var line = (1.3 * fontSize) + fontSize;
 
     for (var i = 0; i < articles.length; i++) {
+
+        var articleHeight = parseInt(window.getComputedStyle(articles[i]).getPropertyValue("height"), 10);
+
+        if (articleHeight <= line * 5) {
+            continue;
+        }
         articles[i].style.height = (line * 5) + "px";
-        articles[i].style.overflow = "hidden";
+        articles[i].style.overflow = "hidden";    
     }
 }
 
@@ -24,13 +30,21 @@ function HideOneArticle(id) {
 
     var article = document.getElementById(id).getElementsByClassName("card-body")[0];
 
-    //1.2 - typical size of line-heigh with 'normal' value
-    var line = (1.2 * fontSize) + fontSize;
+    //1.3 - typical size of line-heigh with 'normal' value
+    var line = (1.3 * fontSize) + fontSize;
+
+    var button = document.getElementById(id).getElementsByClassName("accordeon")[0];
+
+    var articleHeight = parseInt(window.getComputedStyle(article).getPropertyValue("height"), 10);
+
+    if (articleHeight <= line * 5) {
+        button.innerHTML = "Show";
+        return;
+    }
 
     article.style.height = (line * 5) + "px";
     article.style.overflow = "hidden";
 
-    var button = document.getElementById(id).getElementsByClassName("accordeon")[0];
     button.innerHTML = "Show";
 }
 
@@ -44,7 +58,7 @@ function ShowOneArticle(id) {
 
 function ChangeDisplayingArticle(id) {
 
-    var button = document.getElementById(id).getElementsByClassName("accordeon")[0];
+    var button = document.getElementById(id).getElementsByClassName("accordeon")[0];  
 
     if (button.innerHTML === "Show") {
         ShowOneArticle(id);

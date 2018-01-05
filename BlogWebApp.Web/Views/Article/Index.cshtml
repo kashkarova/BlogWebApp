@@ -24,11 +24,6 @@
             <p class="card-text">@Html.DisplayFor(modelItem => item.Text)</p>
             @foreach (var tag in item.HashTags)
             {
-                if (tag.IsNullOrWhiteSpace())
-                {
-                    continue;
-                }
-
                 @Ajax.ActionLink(tag, "", new AjaxOptions())
             }
         </div>
