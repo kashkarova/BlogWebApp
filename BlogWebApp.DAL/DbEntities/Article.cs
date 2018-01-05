@@ -8,7 +8,7 @@ namespace BlogWebApp.DAL.DbEntities
     public class Article : EntityBase
     {
         [Required]
-        [MaxLength(30)]
+        [MaxLength(100)]
         [Index(IsUnique = true)]
         public string Title { get; set; }
 
