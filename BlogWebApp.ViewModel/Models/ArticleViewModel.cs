@@ -1,13 +1,18 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BlogWebApp.ViewModel
+namespace BlogWebApp.ViewModel.Models
 {
     public class ArticleViewModel
     {
+        public ArticleViewModel()
+        {
+            HashTags = new List<string>();
+        }
+
         public Guid Id { get; set; }
 
         [Required]
@@ -33,10 +38,5 @@ namespace BlogWebApp.ViewModel
         public virtual List<AuthorAndArticleViewModel> Authors { get; set; }
 
         public virtual List<ArticleAndTagViewModel> Tags { get; set; }
-
-        public ArticleViewModel()
-        {
-            HashTags = new List<string>();
-        }
     }
 }

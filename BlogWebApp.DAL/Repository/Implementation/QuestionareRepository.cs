@@ -4,9 +4,11 @@ using BlogWebApp.DAL.Repository.Interfaces;
 
 namespace BlogWebApp.DAL.Repository.Implementation
 {
-    public class AuthorRepository : GenericRepository<Author>, IAuthorRepository
+    public class QuestionareRepository :
+        GenericRepository<Questionare>,
+        IQuestionareRepository
     {
-        public AuthorRepository(BlogDb db) : base(db)
+        public QuestionareRepository(BlogDb db) : base(db)
         {
         }
     }

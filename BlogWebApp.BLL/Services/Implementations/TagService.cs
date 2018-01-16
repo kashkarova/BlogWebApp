@@ -1,30 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
 using BlogWebApp.BLL.Services.Interfaces;
 using BlogWebApp.DAL.DbEntities;
 using BlogWebApp.DAL.UoW.Interface;
-using BlogWebApp.ViewModel;
+using BlogWebApp.ViewModel.Models;
 
 namespace BlogWebApp.BLL.Services.Implementations
 {
     public class TagService : ITagService
     {
-        private readonly IBlogWebAppUnitOfWork _unitOfWork;
-
         public TagService(IBlogWebAppUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;
+            UnitOfWork = unitOfWork;
         }
+
+        private IBlogWebAppUnitOfWork UnitOfWork { get; }
 
         public List<string> GetAllTagTitles()
         {
-            var unmappedTags = _unitOfWork.Tags.GetAll().ToList();
+            var unmappedTags = UnitOfWork.Tags.GetAll().ToList();
             var mappedTags = Mapper.Map<List<Tag>, List<TagViewModel>>(unmappedTags);
 
-            return mappedTags.Select(tag => tag.Title).ToList();
+            var tagsList = mappedTags.Select(tag => tag.Title).ToList();
+
+            return tagsList;
         }
 
         public List<string> GetAllTagTitles(Expression<Func<ArticleAndTagViewModel, bool>> predicate)
@@ -33,37 +36,43 @@ namespace BlogWebApp.BLL.Services.Implementations
                 Mapper.Map<Expression<Func<ArticleAndTagViewModel, bool>>, Expression<Func<ArticleAndTag, bool>>>(
                     predicate);
 
-            var unmappedTags = _unitOfWork.ArticlesAndTags.GetAll(mappedPredicate);
+            var unmappedTags = UnitOfWork.ArticlesAndTags.GetAll(mappedPredicate);
 
             var tagTitlesList = new List<string>();
 
             foreach (var tag in unmappedTags)
-                tagTitlesList.Add(_unitOfWork.Tags.Get(t => t.Id == tag.TagId).Title);
+            {
+                var tagTitle = UnitOfWork.Tags.Get(t => t.Id == tag.TagId).Title;
+                tagTitlesList.Add(tagTitle);
+            }
 
             return tagTitlesList;
         }
 
-        public void AddNewTag(Guid articleId, List<string> tags)
+        public void AddNewTags(List<TagViewModel> tags)
         {
+            var mappedTags = Mapper.Map<List<TagViewModel>, List<Tag>>(tags);
+
             //add new tag to Tag table
-            foreach (var item in tags)
-                if (!_unitOfWork.Tags.Exists(t => t.Title == item))
-                {
-                    var tag = new Tag {Title = item};
+            foreach (var item in mappedTags)
+                if (!UnitOfWork.Tags.Exists(t => t.Title == item.Title))
+                    UnitOfWork.Tags.Create(item);
 
-                    _unitOfWork.Tags.Create(tag);
-                }
-
-            _unitOfWork.Save();
+            UnitOfWork.Save();
         }
 
         //add new record to ArticleAndTagTable
-        public void AddTagsToArticle(Guid articleId, List<string> tags)
+        public void AddTagsToArticle(Guid articleId, List<TagViewModel> tags)
         {
-            foreach (var tag in tags)
-                if (_unitOfWork.Tags.Exists(t => t.Title == tag))
+            if (!UnitOfWork.Articles.Exists(a => a.Id == articleId))
+                throw new ObjectNotFoundException();
+
+            var unmappedTags = Mapper.Map<List<TagViewModel>, List<Tag>>(tags);
+
+            foreach (var tag in unmappedTags)
+                if (UnitOfWork.Tags.Exists(t => t.Title == tag.Title))
                 {
-                    var foundedTag = _unitOfWork.Tags.Get(t => t.Title == tag);
+                    var foundedTag = UnitOfWork.Tags.Get(t => t.Title == tag.Title);
 
                     var articleAndTagEntity = new ArticleAndTag
                     {
@@ -71,22 +80,22 @@ namespace BlogWebApp.BLL.Services.Implementations
                         TagId = foundedTag.Id
                     };
 
-                    _unitOfWork.ArticlesAndTags.Create(articleAndTagEntity);
+                    UnitOfWork.ArticlesAndTags.Create(articleAndTagEntity);
                 }
-            _unitOfWork.Save();
+            UnitOfWork.Save();
         }
 
         public List<ArticleViewModel> GetArticlesByTag(string tag)
         {
-            var tagId = _unitOfWork.Tags.Get(t => t.Title == tag).Id;
+            var tagId = UnitOfWork.Tags.Get(t => t.Title == tag).Id;
 
-            var articlesWithTags = _unitOfWork.ArticlesAndTags.GetAll(a => a.TagId == tagId);
+            var articlesWithTags = UnitOfWork.ArticlesAndTags.GetAll(a => a.TagId == tagId);
 
             var unmappedArticles = new List<Article>();
 
             foreach (var item in articlesWithTags)
             {
-                var article = _unitOfWork.Articles.Get(a => a.Id == item.ArticleId);
+                var article = UnitOfWork.Articles.Get(a => a.Id == item.ArticleId);
                 unmappedArticles.Add(article);
             }
 

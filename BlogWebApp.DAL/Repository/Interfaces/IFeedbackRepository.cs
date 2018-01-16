@@ -2,7 +2,8 @@
 
 namespace BlogWebApp.DAL.Repository.Interfaces
 {
-    public interface IFeedbackRepository : IGenericRepository<Feedback>
+    public interface IFeedbackRepository :
+        IGenericRepository<Feedback>
     {
     }
 }

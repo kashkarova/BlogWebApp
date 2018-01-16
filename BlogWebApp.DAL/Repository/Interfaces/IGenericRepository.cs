@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using BlogWebApp.DAL.DbEntities;
 
 namespace BlogWebApp.DAL.Repository.Interfaces
 {
-    public interface IGenericRepository<TEntity> : IDisposable
-        where TEntity : EntityBase
+    public interface IGenericRepository<TEntity> :
+        IDisposable
+        where TEntity : class
     {
         TEntity Get(Guid id);
         TEntity Get(Expression<Func<TEntity, bool>> predicate);

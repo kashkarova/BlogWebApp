@@ -7,24 +7,24 @@ using AutoMapper;
 using BlogWebApp.BLL.Services.Interfaces;
 using BlogWebApp.DAL.DbEntities;
 using BlogWebApp.DAL.UoW.Interface;
-using BlogWebApp.ViewModel;
+using BlogWebApp.ViewModel.Models;
 
 namespace BlogWebApp.BLL.Services.Implementations
 {
     public class ArticleService : IArticleService
     {
-        private readonly ITagService _tagService;
-        private readonly IBlogWebAppUnitOfWork _unitOfWork;
-
-        public ArticleService(IBlogWebAppUnitOfWork unitOfWork)
+        public ArticleService(IBlogWebAppUnitOfWork unitOfWork, ITagService tagService)
         {
-            _unitOfWork = unitOfWork;
-            _tagService = new TagService(_unitOfWork);
+            UnitOfWork = unitOfWork;
+            TagService = tagService;
         }
+
+        private ITagService TagService { get; }
+        private IBlogWebAppUnitOfWork UnitOfWork { get; }
 
         public ArticleViewModel Get(Guid id)
         {
-            var unmappedArticle = _unitOfWork.Articles.Get(id);
+            var unmappedArticle = UnitOfWork.Articles.Get(id);
             var mappedArticle = Mapper.Map<Article, ArticleViewModel>(unmappedArticle);
 
             return mappedArticle;
@@ -36,7 +36,7 @@ namespace BlogWebApp.BLL.Services.Implementations
                 Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
 
 
-            var unmappedArticle = _unitOfWork.Articles.Get(mappedPredicate);
+            var unmappedArticle = UnitOfWork.Articles.Get(mappedPredicate);
             var mappedArticle = Mapper.Map<Article, ArticleViewModel>(unmappedArticle);
 
             return mappedArticle;
@@ -44,7 +44,7 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public List<ArticleViewModel> GetAll()
         {
-            var unmappedList = _unitOfWork.Articles.GetAll();
+            var unmappedList = UnitOfWork.Articles.GetAll();
 
             var mappedList = Mapper.Map<List<Article>, List<ArticleViewModel>>(unmappedList.ToList());
 
@@ -56,7 +56,7 @@ namespace BlogWebApp.BLL.Services.Implementations
             var mappedPredicate =
                 Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
 
-            var unmappedList = _unitOfWork.Articles.GetAll(mappedPredicate);
+            var unmappedList = UnitOfWork.Articles.GetAll(mappedPredicate);
 
             var mappedList = Mapper.Map<List<Article>, List<ArticleViewModel>>(unmappedList.ToList());
 
@@ -65,7 +65,7 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public bool Exists(Guid id)
         {
-            return _unitOfWork.Articles.Exists(id);
+            return UnitOfWork.Articles.Exists(id);
         }
 
         public bool Exists(Expression<Func<ArticleViewModel, bool>> predicate)
@@ -73,12 +73,12 @@ namespace BlogWebApp.BLL.Services.Implementations
             var mappedPredicate =
                 Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
 
-            return _unitOfWork.Articles.Exists(mappedPredicate);
+            return UnitOfWork.Articles.Exists(mappedPredicate);
         }
 
         public int Count()
         {
-            return _unitOfWork.Articles.Count();
+            return UnitOfWork.Articles.Count();
         }
 
         public int Count(Expression<Func<ArticleViewModel, bool>> predicate)
@@ -86,28 +86,25 @@ namespace BlogWebApp.BLL.Services.Implementations
             var mappedPredicate =
                 Mapper.Map<Expression<Func<ArticleViewModel, bool>>, Expression<Func<Article, bool>>>(predicate);
 
-            return _unitOfWork.Articles.Count(mappedPredicate);
+            return UnitOfWork.Articles.Count(mappedPredicate);
         }
 
-        public ArticleViewModel Create(ArticleViewModel entity, string tags)
+        public ArticleViewModel Create(ArticleViewModel entity, List<TagViewModel> tagList)
         {
             var mappedEntityForCreate = Mapper.Map<ArticleViewModel, Article>(entity);
 
-            if (_unitOfWork.Articles.Exists(e => e.Title == mappedEntityForCreate.Title))
+            if (UnitOfWork.Articles.Exists(e => e.Title == mappedEntityForCreate.Title))
                 throw new DbEntityValidationException();
 
             //create new article
-            var unmappedCreatedEntity = _unitOfWork.Articles.Create(mappedEntityForCreate);
-            _unitOfWork.Save();
-
-            //split tags from string to list
-            var tagList = tags.Split(' ').ToList();
+            var unmappedCreatedEntity = UnitOfWork.Articles.Create(mappedEntityForCreate);
+            UnitOfWork.Save();
 
             //add record to Tag table, if list of tags contains something new
-            _tagService.AddNewTag(unmappedCreatedEntity.Id, tagList);
+            TagService.AddNewTags(tagList);
 
             //binding tags to article
-            _tagService.AddTagsToArticle(unmappedCreatedEntity.Id, tagList);
+            TagService.AddTagsToArticle(unmappedCreatedEntity.Id, tagList);
 
             var mappedCreatedEntity = Mapper.Map<Article, ArticleViewModel>(unmappedCreatedEntity);
 
@@ -118,7 +115,7 @@ namespace BlogWebApp.BLL.Services.Implementations
         {
             var mappedEntityForUpdate = Mapper.Map<ArticleViewModel, Article>(entity);
 
-            var unmappedUpdatedEntity = _unitOfWork.Articles.Update(mappedEntityForUpdate);
+            var unmappedUpdatedEntity = UnitOfWork.Articles.Update(mappedEntityForUpdate);
             var mappedUpdatedEntity = Mapper.Map<Article, ArticleViewModel>(unmappedUpdatedEntity);
 
             return mappedUpdatedEntity;
@@ -126,12 +123,12 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public void Delete(Guid id)
         {
-            _unitOfWork.Articles.Delete(id);
+            UnitOfWork.Articles.Delete(id);
         }
 
         public void Save()
         {
-            _unitOfWork.Save();
+            UnitOfWork.Save();
         }
     }
 }

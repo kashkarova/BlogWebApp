@@ -7,22 +7,22 @@ using AutoMapper;
 using BlogWebApp.BLL.Services.Interfaces;
 using BlogWebApp.DAL.DbEntities;
 using BlogWebApp.DAL.UoW.Interface;
-using BlogWebApp.ViewModel;
+using BlogWebApp.ViewModel.Models;
 
 namespace BlogWebApp.BLL.Services.Implementations
 {
     public class FeedbackService : IFeedbackService
     {
-        private readonly IBlogWebAppUnitOfWork _unitOfWork;
-
         public FeedbackService(IBlogWebAppUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;
+            UnitOfWork = unitOfWork;
         }
+
+        private IBlogWebAppUnitOfWork UnitOfWork { get; }
 
         public FeedbackViewModel Get(Guid id)
         {
-            var unmappedFeedback = _unitOfWork.Feedbacks.Get(id);
+            var unmappedFeedback = UnitOfWork.Feedbacks.Get(id);
             var mappedFeedback = Mapper.Map<Feedback, FeedbackViewModel>(unmappedFeedback);
 
             return mappedFeedback;
@@ -33,7 +33,7 @@ namespace BlogWebApp.BLL.Services.Implementations
             var mappedPredicate =
                 Mapper.Map<Expression<Func<FeedbackViewModel, bool>>, Expression<Func<Feedback, bool>>>(predicate);
 
-            var unmappedFeedback = _unitOfWork.Feedbacks.Get(mappedPredicate);
+            var unmappedFeedback = UnitOfWork.Feedbacks.Get(mappedPredicate);
             var mappedFeedback = Mapper.Map<Feedback, FeedbackViewModel>(unmappedFeedback);
 
             return mappedFeedback;
@@ -41,7 +41,7 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public List<FeedbackViewModel> GetAll()
         {
-            var unmappedList = _unitOfWork.Feedbacks.GetAll();
+            var unmappedList = UnitOfWork.Feedbacks.GetAll();
 
             var mappedList = Mapper.Map<List<Feedback>, List<FeedbackViewModel>>(unmappedList.ToList());
 
@@ -53,7 +53,7 @@ namespace BlogWebApp.BLL.Services.Implementations
             var mappedPredicate =
                 Mapper.Map<Expression<Func<FeedbackViewModel, bool>>, Expression<Func<Feedback, bool>>>(predicate);
 
-            var unmappedList = _unitOfWork.Feedbacks.GetAll(mappedPredicate);
+            var unmappedList = UnitOfWork.Feedbacks.GetAll(mappedPredicate);
 
             var mappedList = Mapper.Map<List<Feedback>, List<FeedbackViewModel>>(unmappedList.ToList());
 
@@ -62,7 +62,7 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public bool Exists(Guid id)
         {
-            return _unitOfWork.Feedbacks.Exists(id);
+            return UnitOfWork.Feedbacks.Exists(id);
         }
 
         public bool Exists(Expression<Func<FeedbackViewModel, bool>> predicate)
@@ -70,12 +70,12 @@ namespace BlogWebApp.BLL.Services.Implementations
             var mappedPredicate =
                 Mapper.Map<Expression<Func<FeedbackViewModel, bool>>, Expression<Func<Feedback, bool>>>(predicate);
 
-            return _unitOfWork.Feedbacks.Exists(mappedPredicate);
+            return UnitOfWork.Feedbacks.Exists(mappedPredicate);
         }
 
         public int Count()
         {
-            return _unitOfWork.Feedbacks.Count();
+            return UnitOfWork.Feedbacks.Count();
         }
 
         public int Count(Expression<Func<FeedbackViewModel, bool>> predicate)
@@ -83,17 +83,17 @@ namespace BlogWebApp.BLL.Services.Implementations
             var mappedPredicate =
                 Mapper.Map<Expression<Func<FeedbackViewModel, bool>>, Expression<Func<Feedback, bool>>>(predicate);
 
-            return _unitOfWork.Feedbacks.Count(mappedPredicate);
+            return UnitOfWork.Feedbacks.Count(mappedPredicate);
         }
 
         public FeedbackViewModel Create(FeedbackViewModel entity)
         {
             var mappedEntityForCreate = Mapper.Map<FeedbackViewModel, Feedback>(entity);
 
-            if (_unitOfWork.Feedbacks.Exists(e => e.Author == mappedEntityForCreate.Author))
+            if (UnitOfWork.Feedbacks.Exists(e => e.Author == mappedEntityForCreate.Author))
                 throw new DbEntityValidationException();
 
-            var unmappedCreatedEntity = _unitOfWork.Feedbacks.Create(mappedEntityForCreate);
+            var unmappedCreatedEntity = UnitOfWork.Feedbacks.Create(mappedEntityForCreate);
             var mappedCreatedEntity = Mapper.Map<Feedback, FeedbackViewModel>(unmappedCreatedEntity);
 
             return mappedCreatedEntity;
@@ -103,7 +103,7 @@ namespace BlogWebApp.BLL.Services.Implementations
         {
             var mappedEntityForUpdate = Mapper.Map<FeedbackViewModel, Feedback>(entity);
 
-            var unmappedUpdatedEntity = _unitOfWork.Feedbacks.Update(mappedEntityForUpdate);
+            var unmappedUpdatedEntity = UnitOfWork.Feedbacks.Update(mappedEntityForUpdate);
             var mappedUpdatedEntity = Mapper.Map<Feedback, FeedbackViewModel>(unmappedUpdatedEntity);
 
             return mappedUpdatedEntity;
@@ -111,12 +111,12 @@ namespace BlogWebApp.BLL.Services.Implementations
 
         public void Delete(Guid id)
         {
-            _unitOfWork.Feedbacks.Delete(id);
+            UnitOfWork.Feedbacks.Delete(id);
         }
 
         public void Save()
         {
-            _unitOfWork.Save();
+            UnitOfWork.Save();
         }
     }
 }

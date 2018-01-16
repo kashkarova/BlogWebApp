@@ -2,24 +2,24 @@
 using System.Linq;
 using System.Web.Mvc;
 using BlogWebApp.BLL.Services.Interfaces;
-using BlogWebApp.ViewModel;
+using BlogWebApp.ViewModel.Models;
 
 namespace BlogWebApp.Web.Controllers
 {
     public class FeedbackController : Controller
     {
-        private readonly IFeedbackService _feedbackService;
-
         public FeedbackController(IFeedbackService feedbackService)
         {
-            _feedbackService = feedbackService;
+            FeedbackService = feedbackService;
         }
+
+        private IFeedbackService FeedbackService { get; }
 
         // GET: Feedback
         [HttpGet]
         public ActionResult Index()
         {
-            var feedbacks = _feedbackService.GetAll().OrderByDescending(f => f.Date);
+            var feedbacks = FeedbackService.GetAll().OrderByDescending(f => f.Date);
 
             return View(feedbacks);
         }
@@ -38,7 +38,7 @@ namespace BlogWebApp.Web.Controllers
                 return View(item);
 
             // Validation of unique field Author
-            if (!_feedbackService.Exists(i => i.Author == item.Author))
+            if (!FeedbackService.Exists(i => i.Author == item.Author))
             {
                 item.Id = Guid.NewGuid();
             }
@@ -48,8 +48,8 @@ namespace BlogWebApp.Web.Controllers
                 return View(item);
             }
 
-            _feedbackService.Create(item);
-            _feedbackService.Save();
+            FeedbackService.Create(item);
+            FeedbackService.Save();
 
             return RedirectToAction("Index");
         }
@@ -57,7 +57,7 @@ namespace BlogWebApp.Web.Controllers
         [HttpGet]
         public ActionResult Edit(Guid id)
         {
-            var itemForEdit = _feedbackService.Get(id);
+            var itemForEdit = FeedbackService.Get(id);
 
             return View(itemForEdit);
         }
@@ -69,18 +69,18 @@ namespace BlogWebApp.Web.Controllers
             if (!ModelState.IsValid)
                 return View(item);
 
-            _feedbackService.Update(item);
-            _feedbackService.Save();
+            FeedbackService.Update(item);
+            FeedbackService.Save();
 
             return RedirectToAction("Index");
         }
 
         public ActionResult Delete(Guid id)
         {
-            var itemForDelete = _feedbackService.Get(id);
+            var itemForDelete = FeedbackService.Get(id);
 
-            _feedbackService.Delete(itemForDelete.Id);
-            _feedbackService.Save();
+            FeedbackService.Delete(itemForDelete.Id);
+            FeedbackService.Save();
 
             return RedirectToAction("Index");
         }

@@ -2,30 +2,30 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using BlogWebApp.BLL.Services.Interfaces;
-using BlogWebApp.ViewModel;
+using BlogWebApp.ViewModel.Models;
 
 namespace BlogWebApp.Web.Controllers
 {
     public class AuthorController : Controller
     {
-        private readonly IAuthorService _authorService;
-
         public AuthorController(IAuthorService authorService)
         {
-            _authorService = authorService;
+            AuthorService = authorService;
         }
+
+        private IAuthorService AuthorService { get; }
 
         // GET: Author
         [HttpGet]
         public ActionResult Index()
         {
-            return View(_authorService.GetAll());
+            return View(AuthorService.GetAll());
         }
 
         [HttpGet]
         public ActionResult Details(Guid id)
         {
-            var selectedAuthor = _authorService.Get(id);
+            var selectedAuthor = AuthorService.Get(id);
 
             return View(selectedAuthor);
         }
@@ -36,12 +36,12 @@ namespace BlogWebApp.Web.Controllers
             ViewBag.hobbies = GetHobbies();
 
             // Check for unique field NickName and validity of the model
-            if (!_authorService.Exists(i => i.NickName == author.NickName) && action == "Create" && ModelState.IsValid)
+            if (!AuthorService.Exists(i => i.NickName == author.NickName) && action == "Create" && ModelState.IsValid)
             {
                 author.Id = Guid.NewGuid();
 
-                _authorService.Create(author);
-                _authorService.Save();
+                AuthorService.Create(author);
+                AuthorService.Save();
 
                 return RedirectToAction("Details", author.Id);
             }
@@ -59,7 +59,7 @@ namespace BlogWebApp.Web.Controllers
         [HttpGet]
         public ActionResult Edit(Guid id)
         {
-            var itemForEdit = _authorService.Get(id);
+            var itemForEdit = AuthorService.Get(id);
 
             return View(itemForEdit);
         }
@@ -71,8 +71,8 @@ namespace BlogWebApp.Web.Controllers
             if (!ModelState.IsValid)
                 return View(item);
 
-            _authorService.Update(item);
-            _authorService.Save();
+            AuthorService.Update(item);
+            AuthorService.Save();
 
             return RedirectToAction("Index");
         }
@@ -81,10 +81,10 @@ namespace BlogWebApp.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(Guid id)
         {
-            var itemForDelete = _authorService.Get(id);
+            var itemForDelete = AuthorService.Get(id);
 
-            _authorService.Delete(itemForDelete.Id);
-            _authorService.Save();
+            AuthorService.Delete(itemForDelete.Id);
+            AuthorService.Save();
 
             return RedirectToAction("Index");
         }

@@ -2,7 +2,8 @@
 
 namespace BlogWebApp.DAL.Repository.Interfaces
 {
-    public interface IAuthorRepository : IGenericRepository<Author>
+    public interface IQuestionareRepository :
+        IGenericRepository<Questionare>
     {
     }
 }

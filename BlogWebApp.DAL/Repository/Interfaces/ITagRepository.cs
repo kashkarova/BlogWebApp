@@ -2,7 +2,8 @@
 
 namespace BlogWebApp.DAL.Repository.Interfaces
 {
-    public interface ITagRepository : IGenericRepository<Tag>
+    public interface ITagRepository :
+        IGenericRepository<Tag>
     {
     }
 }

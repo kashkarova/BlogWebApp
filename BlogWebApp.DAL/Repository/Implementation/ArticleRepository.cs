@@ -4,7 +4,9 @@ using BlogWebApp.DAL.Repository.Interfaces;
 
 namespace BlogWebApp.DAL.Repository.Implementation
 {
-    public class ArticleRepository : GenericRepository<Article>, IArticleRepository
+    public class ArticleRepository :
+        GenericRepository<Article>,
+        IArticleRepository
     {
         public ArticleRepository(BlogDb db) : base(db)
         {

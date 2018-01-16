@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace BlogWebApp.ViewModel
+namespace BlogWebApp.ViewModel.Models
 {
     public class ArticleAndTagViewModel
     {

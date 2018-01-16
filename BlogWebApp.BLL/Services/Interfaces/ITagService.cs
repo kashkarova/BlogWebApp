@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using BlogWebApp.ViewModel;
+using BlogWebApp.ViewModel.Models;
 
 namespace BlogWebApp.BLL.Services.Interfaces
 {
@@ -10,8 +10,8 @@ namespace BlogWebApp.BLL.Services.Interfaces
         List<string> GetAllTagTitles();
         List<string> GetAllTagTitles(Expression<Func<ArticleAndTagViewModel, bool>> predicate);
 
-        void AddNewTag(Guid articleId, List<string> tags);
-        void AddTagsToArticle(Guid articleId, List<string> tags);
+        void AddNewTags(List<TagViewModel> tags);
+        void AddTagsToArticle(Guid articleId, List<TagViewModel> tags);
         List<ArticleViewModel> GetArticlesByTag(string tag);
     }
 }

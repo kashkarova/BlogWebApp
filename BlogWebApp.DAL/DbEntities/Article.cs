@@ -1,12 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlogWebApp.DAL.DbEntities
 {
-    public class Article : EntityBase
+    public class Article
     {
+        [Key]
+        public Guid Id { get; set; }
+
         [Required]
         [MaxLength(100)]
         [Index(IsUnique = true)]
@@ -22,8 +25,11 @@ namespace BlogWebApp.DAL.DbEntities
         [Required]
         public DateTime Date { get; set; }
 
-        public virtual ICollection<AuthorAndArticle> Authors { get; set; }
-
         public virtual ICollection<ArticleAndTag> Tags { get; set; }
+
+        public Article()
+        {
+            Id = Guid.NewGuid();
+        }
     }
 }

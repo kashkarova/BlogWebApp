@@ -2,30 +2,31 @@
 using System.Linq;
 using System.Web.Mvc;
 using BlogWebApp.BLL.Services.Interfaces;
-using BlogWebApp.ViewModel;
+using BlogWebApp.ViewModel.Models;
 
 namespace BlogWebApp.Web.Controllers
 {
     public class ArticleController : Controller
     {
-        private readonly IArticleService _articleService;
-        private readonly ITagService _tagService;
-
         public ArticleController(IArticleService articleService, ITagService tagService)
         {
-            _articleService = articleService;
-            _tagService = tagService;
+            ArticleService = articleService;
+            TagService = tagService;
         }
+
+        private IArticleService ArticleService { get; }
+
+        private ITagService TagService { get; }
 
         // GET: Article
         [HttpGet]
         public ActionResult Index()
         {
-            var articles = _articleService.GetAll().OrderByDescending(a => a.Date).ToList();
+            var articles = ArticleService.GetAll().OrderByDescending(a => a.Date).ToList();
 
             foreach (var article in articles)
             {
-                var hashTags = _tagService.GetAllTagTitles(t => t.ArticleId == article.Id).ToList();
+                var hashTags = TagService.GetAllTagTitles(t => t.ArticleId == article.Id).ToList();
 
                 if (hashTags.Count == 0)
                     continue;
@@ -36,15 +37,14 @@ namespace BlogWebApp.Web.Controllers
             return View(articles);
         }
 
-
         public ActionResult FilterArticlesByTag(string hashTag)
         {
-            var articles = _tagService.GetArticlesByTag(hashTag);
+            var articles = TagService.GetArticlesByTag(hashTag);
             ViewData["tag"] = hashTag;
 
             foreach (var article in articles)
             {
-                var hashTags = _tagService.GetAllTagTitles(t => t.ArticleId == article.Id).ToList();
+                var hashTags = TagService.GetAllTagTitles(t => t.ArticleId == article.Id).ToList();
 
                 if (hashTags.Count == 0)
                     continue;
@@ -69,7 +69,7 @@ namespace BlogWebApp.Web.Controllers
                 return View(item);
 
             // Validation of unique field Title
-            if (!_articleService.Exists(i => i.Title == item.Title))
+            if (!ArticleService.Exists(i => i.Title == item.Title))
             {
                 item.Id = Guid.NewGuid();
             }
@@ -79,7 +79,11 @@ namespace BlogWebApp.Web.Controllers
                 return View(item);
             }
 
-            _articleService.Create(item, hashTags);
+            var tagTitlesList = hashTags.Split(' ').ToList();
+
+            var tagList = tagTitlesList.Select(tagTitle => new TagViewModel {Title = tagTitle}).ToList();
+
+            ArticleService.Create(item, tagList);
 
             return RedirectToAction("Index");
         }
@@ -87,7 +91,7 @@ namespace BlogWebApp.Web.Controllers
         [HttpGet]
         public ActionResult Edit(Guid id)
         {
-            var itemForEdit = _articleService.Get(id);
+            var itemForEdit = ArticleService.Get(id);
 
             return View(itemForEdit);
         }
@@ -99,8 +103,8 @@ namespace BlogWebApp.Web.Controllers
             if (!ModelState.IsValid)
                 return View(item);
 
-            _articleService.Update(item);
-            _articleService.Save();
+            ArticleService.Update(item);
+            ArticleService.Save();
 
             return RedirectToAction("Index");
         }
@@ -109,9 +113,9 @@ namespace BlogWebApp.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(Guid id)
         {
-            var itemForDelete = _articleService.Get(id);
-            _articleService.Delete(itemForDelete.Id);
-            _articleService.Save();
+            var itemForDelete = ArticleService.Get(id);
+            ArticleService.Delete(itemForDelete.Id);
+            ArticleService.Save();
 
             return RedirectToAction("Index");
         }
